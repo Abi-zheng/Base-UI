@@ -1,0 +1,949 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Combobox 组件库样张</title>
+  <style>
+    :root {
+      --cb-color-bg: #f6f7f9;
+      --cb-color-surface: #ffffff;
+      --cb-color-text: #172033;
+      --cb-color-text-muted: #687386;
+      --cb-color-border: #c8ced8;
+      --cb-color-border-active: #246bfe;
+      --cb-color-primary: #246bfe;
+      --cb-color-primary-weak: #edf4ff;
+      --cb-color-success: #1f6f43;
+      --cb-radius-sm: 8px;
+      --cb-radius-sheet: 16px 16px 0 0;
+      --cb-shadow-focus: 0 0 0 3px rgba(36, 107, 254, 0.14);
+      --cb-shadow-sheet: 0 -12px 40px rgba(23, 32, 51, 0.22);
+      --cb-font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --cb-motion-fast: 160ms ease;
+      --cb-motion-sheet: 220ms ease;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--cb-font);
+      color: var(--cb-color-text);
+      background: var(--cb-color-bg);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .docs-page {
+      min-height: 100dvh;
+      padding: 20px 16px 120px;
+    }
+
+    .docs-shell {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    .library-menu {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      margin: -20px -16px 0;
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid #e2e6ee;
+      background: rgba(246, 247, 249, 0.96);
+      backdrop-filter: blur(12px);
+    }
+
+    .library-menu__title {
+      margin: 0 0 10px;
+      font-size: 15px;
+      font-weight: 750;
+    }
+
+    .library-menu__list {
+      display: flex;
+      gap: 8px;
+      margin: 0;
+      padding: 0 0 2px;
+      overflow-x: auto;
+      list-style: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .library-menu__item {
+      flex: 0 0 auto;
+    }
+
+    .library-menu__link {
+      display: flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 0 12px;
+      border: 1px solid #d8deea;
+      border-radius: 8px;
+      background: var(--cb-color-surface);
+      color: #384152;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .library-menu__link[aria-current="page"] {
+      border-color: var(--cb-color-primary);
+      background: var(--cb-color-primary-weak);
+      color: #1557d6;
+    }
+
+    .library-menu__link[aria-disabled="true"] {
+      color: #9aa3b2;
+      background: #f8fafc;
+      cursor: default;
+    }
+
+    .component-content {
+      min-width: 0;
+    }
+
+    .docs-title {
+      margin: 0 0 6px;
+      font-size: 24px;
+      line-height: 1.25;
+      font-weight: 750;
+    }
+
+    .docs-summary {
+      margin: 0 0 22px;
+      color: var(--cb-color-text-muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .docs-section {
+      margin-top: 24px;
+    }
+
+    .docs-heading {
+      margin: 0 0 12px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .docs-text {
+      margin: 0 0 10px;
+      color: var(--cb-color-text-muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .demo-panel {
+      padding: 16px;
+      border: 1px solid #e2e6ee;
+      border-radius: var(--cb-radius-sm);
+      background: var(--cb-color-surface);
+    }
+
+    .preview-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .preview-toolbar__label {
+      margin: 0;
+      color: var(--cb-color-text-muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .mode-switch {
+      display: inline-flex;
+      padding: 3px;
+      border: 1px solid #d8deea;
+      border-radius: 8px;
+      background: #f8fafc;
+    }
+
+    .mode-switch__button {
+      min-height: 34px;
+      padding: 0 12px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #526071;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .mode-switch__button[aria-pressed="true"] {
+      background: var(--cb-color-surface);
+      color: #1557d6;
+      box-shadow: 0 1px 4px rgba(23, 32, 51, 0.12);
+    }
+
+    .cb-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--cb-color-text);
+    }
+
+    .cb {
+      position: relative;
+    }
+
+    .cb__field {
+      position: relative;
+      display: flex;
+      align-items: center;
+      min-height: 52px;
+      border: 1px solid var(--cb-color-border);
+      border-radius: var(--cb-radius-sm);
+      background: var(--cb-color-surface);
+      transition: border-color var(--cb-motion-fast), box-shadow var(--cb-motion-fast);
+    }
+
+    .cb__field:focus-within {
+      border-color: var(--cb-color-border-active);
+      box-shadow: var(--cb-shadow-focus);
+    }
+
+    .cb__input {
+      width: 100%;
+      min-width: 0;
+      height: 50px;
+      padding: 0 44px 0 14px;
+      border: 0;
+      outline: 0;
+      border-radius: var(--cb-radius-sm);
+      background: transparent;
+      color: var(--cb-color-text);
+      font-size: 16px;
+    }
+
+    .cb__input::placeholder {
+      color: #8b94a5;
+    }
+
+    .cb__icon,
+    .cb__clear {
+      position: absolute;
+      right: 8px;
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: var(--cb-radius-sm);
+      background: transparent;
+      color: var(--cb-color-text-muted);
+      font-size: 20px;
+      line-height: 36px;
+    }
+
+    .cb__clear {
+      display: none;
+    }
+
+    .cb[data-has-value="true"] .cb__icon {
+      display: none;
+    }
+
+    .cb[data-has-value="true"] .cb__clear {
+      display: block;
+    }
+
+    .cb__hint {
+      margin: 8px 0 0;
+      color: var(--cb-color-text-muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .cb-submit {
+      width: 100%;
+      min-height: 48px;
+      margin-top: 18px;
+      border: 0;
+      border-radius: var(--cb-radius-sm);
+      background: var(--cb-color-primary);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 650;
+    }
+
+    .cb-result {
+      min-height: 24px;
+      margin: 12px 0 0;
+      color: var(--cb-color-success);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .cb-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: none;
+      background: transparent;
+    }
+
+    .cb-sheet {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 30;
+      display: none;
+      max-height: min(64dvh, 560px);
+      padding-bottom: max(14px, env(safe-area-inset-bottom));
+      border-radius: var(--cb-radius-sheet);
+      background: var(--cb-color-surface);
+      box-shadow: var(--cb-shadow-sheet);
+      transform: translateY(100%);
+      transition: transform var(--cb-motion-sheet);
+    }
+
+    .cb-overlay.is-open,
+    .cb-sheet.is-open {
+      display: block;
+    }
+
+    .cb-overlay[data-mode="desktop"].is-open {
+      display: none;
+    }
+
+    .cb-sheet.is-open {
+      transform: translateY(0);
+    }
+
+    .cb-sheet[data-mode="desktop"] {
+      right: auto;
+      bottom: auto;
+      left: var(--cb-sheet-left, 16px);
+      top: var(--cb-sheet-top, 120px);
+      width: var(--cb-sheet-width, 320px);
+      max-height: 320px;
+      padding-bottom: 8px;
+      border: 1px solid #e2e6ee;
+      border-radius: var(--cb-radius-sm);
+      box-shadow: 0 12px 32px rgba(23, 32, 51, 0.18);
+      transform: translateY(-4px);
+    }
+
+    .cb-sheet[data-mode="desktop"].is-open {
+      transform: translateY(0);
+    }
+
+    .cb-sheet[data-mode="desktop"] .cb-sheet__header {
+      display: none;
+    }
+
+    .cb-sheet[data-mode="desktop"] .cb-list {
+      max-height: 300px;
+      padding: 6px 0;
+    }
+
+    .cb-sheet__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 56px;
+      padding: 10px 16px;
+      border-bottom: 1px solid #eef1f5;
+    }
+
+    .cb-sheet__title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .cb-sheet__close {
+      min-width: 44px;
+      min-height: 36px;
+      border: 0;
+      border-radius: var(--cb-radius-sm);
+      background: #f1f3f7;
+      color: #384152;
+      font-size: 14px;
+    }
+
+    .cb-list {
+      max-height: calc(min(64dvh, 560px) - 72px);
+      overflow-y: auto;
+      padding: 8px 0;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .cb-list__group-title {
+      margin: 14px 16px 6px;
+      color: var(--cb-color-text-muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .cb-option,
+    .cb-use-input {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-height: 50px;
+      padding: 10px 16px;
+      border: 0;
+      background: var(--cb-color-surface);
+      color: var(--cb-color-text);
+      text-align: left;
+      font-size: 16px;
+    }
+
+    .cb-option:active,
+    .cb-use-input:active {
+      background: var(--cb-color-primary-weak);
+    }
+
+    .cb-option[aria-selected="true"] {
+      background: var(--cb-color-primary-weak);
+      color: #1557d6;
+      font-weight: 650;
+    }
+
+    .cb-empty {
+      padding: 28px 16px 10px;
+    }
+
+    .cb-empty__text {
+      margin: 0 0 14px;
+      color: var(--cb-color-text-muted);
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .cb-use-input {
+      justify-content: center;
+      border: 1px solid #c8d8ff;
+      border-radius: var(--cb-radius-sm);
+      background: #f4f8ff;
+      color: #1557d6;
+      font-weight: 650;
+    }
+
+    .state-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .state-item {
+      padding: 12px;
+      border: 1px solid #e2e6ee;
+      border-radius: var(--cb-radius-sm);
+      background: var(--cb-color-surface);
+    }
+
+    .state-name {
+      margin: 0 0 4px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .state-desc {
+      margin: 0;
+      color: var(--cb-color-text-muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .api-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border: 1px solid #e2e6ee;
+      border-radius: var(--cb-radius-sm);
+      background: var(--cb-color-surface);
+      font-size: 13px;
+    }
+
+    .api-table th,
+    .api-table td {
+      padding: 10px;
+      border-bottom: 1px solid #e9edf3;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .api-table th {
+      color: #384152;
+      font-weight: 700;
+      background: #f9fafc;
+    }
+
+    .api-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    code {
+      padding: 1px 4px;
+      border-radius: 4px;
+      background: #eef1f5;
+      color: #384152;
+      font-size: 12px;
+    }
+
+    @media (min-width: 800px) {
+      .docs-page {
+        padding-top: 28px;
+      }
+
+      .docs-shell {
+        grid-template-columns: 240px minmax(0, 1fr);
+        align-items: start;
+      }
+
+      .library-menu {
+        top: 20px;
+        margin: 0;
+        padding: 14px;
+        border: 1px solid #e2e6ee;
+        border-radius: var(--cb-radius-sm);
+        background: var(--cb-color-surface);
+        backdrop-filter: none;
+      }
+
+      .library-menu__list {
+        display: grid;
+        gap: 8px;
+        overflow: visible;
+      }
+
+      .library-menu__item {
+        min-width: 0;
+      }
+
+      .library-menu__link {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="docs-page">
+    <div class="docs-shell">
+      <nav class="library-menu" aria-label="组件库列表">
+        <p class="library-menu__title">组件库</p>
+        <ul class="library-menu__list" id="componentMenu"></ul>
+      </nav>
+
+      <div class="component-content" id="combobox">
+        <h1 class="docs-title">Combobox 组合输入框</h1>
+        <p class="docs-summary">
+          用于移动端“可输入 + 可选择”的统一输入体验。输入框是唯一主控件，候选 bottom sheet 以非模态方式辅助输入。
+        </p>
+
+        <section class="docs-section">
+          <h2 class="docs-heading">交互 Demo</h2>
+          <div class="demo-panel">
+            <div class="preview-toolbar" aria-label="预览模式">
+              <p class="preview-toolbar__label">预览终端</p>
+              <div class="mode-switch">
+                <button class="mode-switch__button" type="button" data-preview-mode="mobile" aria-pressed="true">移动端</button>
+                <button class="mode-switch__button" type="button" data-preview-mode="desktop" aria-pressed="false">PC端</button>
+              </div>
+            </div>
+
+            <form id="comboboxDemoForm">
+              <label class="cb-label" for="companyCombobox">公司名称</label>
+
+              <div class="cb" id="companyCb" data-state="empty" data-has-value="false">
+                <div class="cb__field">
+                  <input
+                    id="companyCombobox"
+                    class="cb__input"
+                    type="text"
+                    placeholder="请输入或选择"
+                    autocomplete="off"
+                    role="combobox"
+                    aria-expanded="false"
+                    aria-controls="companyComboboxSheet"
+                    aria-autocomplete="list"
+                  />
+                  <span class="cb__icon" aria-hidden="true">⌄</span>
+                  <button class="cb__clear" type="button" aria-label="清空输入">×</button>
+                </div>
+              </div>
+
+              <p class="cb__hint">支持自由输入；候选项仅用于快速填充，不强制选择。</p>
+              <button class="cb-submit" type="submit">提交</button>
+              <p class="cb-result" id="comboboxResult" aria-live="polite"></p>
+            </form>
+          </div>
+        </section>
+
+        <section class="docs-section">
+          <h2 class="docs-heading">组件状态</h2>
+          <div class="state-grid">
+            <article class="state-item">
+              <p class="state-name">Empty</p>
+              <p class="state-desc">默认态，输入为空，不展示候选面板。</p>
+            </article>
+            <article class="state-item">
+              <p class="state-name">Focused / SuggestionsVisible</p>
+              <p class="state-desc">输入框聚焦后弹出键盘，并展示 bottom sheet 候选列表。</p>
+            </article>
+            <article class="state-item">
+              <p class="state-name">Typing / Filtering</p>
+              <p class="state-desc">用户输入时实时过滤历史、常用和推荐候选项。</p>
+            </article>
+            <article class="state-item">
+              <p class="state-name">NoMatch</p>
+              <p class="state-desc">无匹配结果时展示“使用当前输入”，允许自定义提交。</p>
+            </article>
+            <article class="state-item">
+              <p class="state-name">Selected / CustomValue</p>
+              <p class="state-desc">点击候选项或直接提交当前输入，两者最终都写入同一个 value。</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="docs-section">
+          <h2 class="docs-heading">建议 API</h2>
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>属性</th>
+                <th>类型</th>
+                <th>说明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>value</code></td>
+                <td>string</td>
+                <td>输入框当前值，也是最终提交值。</td>
+              </tr>
+              <tr>
+                <td><code>options</code></td>
+                <td>OptionGroup[]</td>
+                <td>候选数据，可按历史、常用、推荐分组。</td>
+              </tr>
+              <tr>
+                <td><code>allowCustomValue</code></td>
+                <td>boolean</td>
+                <td>是否允许无匹配时使用当前输入，默认建议为 true。</td>
+              </tr>
+              <tr>
+                <td><code>onChange</code></td>
+                <td>function</td>
+                <td>输入变化时触发。</td>
+              </tr>
+              <tr>
+                <td><code>onSelect</code></td>
+                <td>function</td>
+                <td>点击候选项时触发。</td>
+              </tr>
+              <tr>
+                <td><code>onSubmit</code></td>
+                <td>function</td>
+                <td>提交时返回 value 与来源：option 或 custom。</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <div class="cb-overlay" id="companyComboboxOverlay"></div>
+
+  <section class="cb-sheet" id="companyComboboxSheet" role="listbox" aria-label="候选项">
+    <header class="cb-sheet__header">
+      <h2 class="cb-sheet__title">选择或继续输入</h2>
+      <button class="cb-sheet__close" type="button" id="companyComboboxClose">关闭</button>
+    </header>
+    <div class="cb-list" id="companyComboboxList"></div>
+  </section>
+
+  <script>
+    const componentRegistry = [
+      {
+        id: "combobox",
+        name: "Combobox 组合输入框",
+        ready: true
+      },
+      {
+        id: "input",
+        name: "Input 输入框",
+        ready: false
+      },
+      {
+        id: "select",
+        name: "Select 选择器",
+        ready: false
+      },
+      {
+        id: "textarea",
+        name: "Textarea 文本域",
+        ready: false
+      },
+      {
+        id: "date-picker",
+        name: "DatePicker 日期选择",
+        ready: false
+      }
+    ];
+
+    const optionGroups = [
+      {
+        title: "历史记录",
+        items: ["北京星河科技有限公司", "上海云图信息技术有限公司"]
+      },
+      {
+        title: "常用选项",
+        items: ["阿里巴巴集团", "腾讯科技", "字节跳动", "美团"]
+      },
+      {
+        title: "推荐选项",
+        items: ["百度在线网络技术有限公司", "京东集团", "小米科技有限责任公司"]
+      }
+    ];
+
+    const cb = document.querySelector("#companyCb");
+    const componentMenu = document.querySelector("#componentMenu");
+    const input = document.querySelector("#companyCombobox");
+    const clearBtn = document.querySelector(".cb__clear");
+    const overlay = document.querySelector("#companyComboboxOverlay");
+    const sheet = document.querySelector("#companyComboboxSheet");
+    const closeBtn = document.querySelector("#companyComboboxClose");
+    const list = document.querySelector("#companyComboboxList");
+    const form = document.querySelector("#comboboxDemoForm");
+    const result = document.querySelector("#comboboxResult");
+    const modeButtons = document.querySelectorAll("[data-preview-mode]");
+
+    let selectedValue = "";
+    let previewMode = "mobile";
+
+    function renderComponentMenu() {
+      componentMenu.innerHTML = "";
+
+      componentRegistry.forEach(component => {
+        const item = document.createElement("li");
+        item.className = "library-menu__item";
+
+        const link = document.createElement("a");
+        link.className = "library-menu__link";
+        link.href = `#${component.id}`;
+        link.textContent = component.name;
+
+        if (component.id === "combobox") {
+          link.setAttribute("aria-current", "page");
+        }
+
+        if (!component.ready) {
+          link.setAttribute("aria-disabled", "true");
+          link.addEventListener("click", event => event.preventDefault());
+        }
+
+        item.appendChild(link);
+        componentMenu.appendChild(item);
+      });
+    }
+
+    function setState(state) {
+      cb.dataset.state = state;
+    }
+
+    function syncValueState() {
+      cb.dataset.hasValue = String(input.value.trim().length > 0);
+    }
+
+    function openSheet() {
+      sheet.dataset.mode = previewMode;
+      overlay.dataset.mode = previewMode;
+      if (previewMode === "desktop") {
+        positionDesktopSheet();
+      }
+
+      overlay.classList.add("is-open");
+      sheet.classList.add("is-open");
+      input.setAttribute("aria-expanded", "true");
+      renderOptions(input.value);
+      setState(input.value.trim() ? "filtering" : "suggestions");
+    }
+
+    function closeSheet() {
+      overlay.classList.remove("is-open");
+      sheet.classList.remove("is-open");
+      input.setAttribute("aria-expanded", "false");
+      setState(input.value.trim() ? "closed-with-value" : "empty");
+    }
+
+    function positionDesktopSheet() {
+      const rect = input.getBoundingClientRect();
+      sheet.style.setProperty("--cb-sheet-left", `${rect.left}px`);
+      sheet.style.setProperty("--cb-sheet-top", `${rect.bottom + 6}px`);
+      sheet.style.setProperty("--cb-sheet-width", `${rect.width}px`);
+    }
+
+    function setPreviewMode(mode) {
+      previewMode = mode;
+      sheet.dataset.mode = mode;
+
+      modeButtons.forEach(button => {
+        button.setAttribute("aria-pressed", String(button.dataset.previewMode === mode));
+      });
+
+      if (sheet.classList.contains("is-open")) {
+        openSheet();
+      }
+    }
+
+    function filterGroups(keyword) {
+      const normalized = keyword.trim().toLowerCase();
+      if (!normalized) return optionGroups;
+
+      return optionGroups
+        .map(group => ({
+          title: group.title,
+          items: group.items.filter(item => item.toLowerCase().includes(normalized))
+        }))
+        .filter(group => group.items.length > 0);
+    }
+
+    function renderOptions(keyword) {
+      const filteredGroups = filterGroups(keyword);
+      list.innerHTML = "";
+
+      if (filteredGroups.length === 0 && keyword.trim()) {
+        setState("no-match");
+        const empty = document.createElement("div");
+        empty.className = "cb-empty";
+        empty.innerHTML = `
+          <p class="cb-empty__text">无匹配结果</p>
+          <button class="cb-use-input" type="button">
+            使用当前输入：${escapeHtml(keyword.trim())}
+          </button>
+        `;
+        empty.querySelector(".cb-use-input").addEventListener("click", () => {
+          selectedValue = "";
+          closeSheet();
+          input.focus();
+        });
+        list.appendChild(empty);
+        return;
+      }
+
+      filteredGroups.forEach(group => {
+        const title = document.createElement("p");
+        title.className = "cb-list__group-title";
+        title.textContent = group.title;
+        list.appendChild(title);
+
+        group.items.forEach(item => {
+          const option = document.createElement("button");
+          option.className = "cb-option";
+          option.type = "button";
+          option.role = "option";
+          option.textContent = item;
+
+          if (item === input.value) {
+            option.setAttribute("aria-selected", "true");
+          }
+
+          option.addEventListener("click", () => {
+            input.value = item;
+            selectedValue = item;
+            syncValueState();
+            setState("selected");
+            closeSheet();
+          });
+
+          list.appendChild(option);
+        });
+      });
+    }
+
+    function escapeHtml(value) {
+      return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    input.addEventListener("focus", openSheet);
+    input.addEventListener("input", () => {
+      selectedValue = "";
+      syncValueState();
+      setState("typing");
+      openSheet();
+    });
+
+    clearBtn.addEventListener("click", () => {
+      input.value = "";
+      selectedValue = "";
+      syncValueState();
+      setState("empty");
+      input.focus();
+      openSheet();
+    });
+
+    overlay.addEventListener("click", closeSheet);
+    closeBtn.addEventListener("click", closeSheet);
+
+    document.addEventListener("pointerdown", event => {
+      if (previewMode !== "desktop" || !sheet.classList.contains("is-open")) {
+        return;
+      }
+
+      const clickedCombobox = event.target.closest("#companyCb");
+      const clickedSheet = event.target.closest("#companyComboboxSheet");
+      const clickedModeSwitch = event.target.closest(".mode-switch");
+
+      if (!clickedCombobox && !clickedSheet && !clickedModeSwitch) {
+        closeSheet();
+      }
+    });
+
+    modeButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        setPreviewMode(button.dataset.previewMode);
+      });
+    });
+
+    window.addEventListener("resize", () => {
+      if (previewMode === "desktop" && sheet.classList.contains("is-open")) {
+        positionDesktopSheet();
+      }
+    });
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      const value = input.value.trim();
+
+      if (!value) {
+        result.textContent = "请先输入内容";
+        input.focus();
+        return;
+      }
+
+      result.textContent = `已提交：${value}（${selectedValue ? "候选项" : "自由输入"}）`;
+      closeSheet();
+    });
+
+    renderComponentMenu();
+    setPreviewMode("mobile");
+  </script>
+</body>
+</html>

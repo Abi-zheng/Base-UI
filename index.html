@@ -3,36 +3,48 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Combobox 组件库样张</title>
+  <title>业务交互组件库</title>
   <style>
     :root {
-      --cb-color-bg: #f6f7f9;
-      --cb-color-surface: #ffffff;
-      --cb-color-text: #172033;
-      --cb-color-text-muted: #687386;
-      --cb-color-border: #c8ced8;
-      --cb-color-border-active: #246bfe;
-      --cb-color-primary: #246bfe;
-      --cb-color-primary-weak: #edf4ff;
-      --cb-color-success: #1f6f43;
-      --cb-radius-sm: 8px;
-      --cb-radius-sheet: 16px 16px 0 0;
-      --cb-shadow-focus: 0 0 0 3px rgba(36, 107, 254, 0.14);
-      --cb-shadow-sheet: 0 -12px 40px rgba(23, 32, 51, 0.22);
-      --cb-font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --cb-motion-fast: 160ms ease;
-      --cb-motion-sheet: 220ms ease;
+      --color-bg: #f4f6f8;
+      --color-surface: #ffffff;
+      --color-surface-soft: #f8fafc;
+      --color-text: #172033;
+      --color-muted: #687386;
+      --color-border: #d8deea;
+      --color-border-strong: #b8c1d1;
+      --color-primary: #245bdb;
+      --color-primary-soft: #edf3ff;
+      --color-success: #1f7a4d;
+      --color-success-soft: #eaf7f0;
+      --color-error: #b42318;
+      --color-error-soft: #fff0ed;
+      --color-warning: #9a5b00;
+      --color-warning-soft: #fff7e6;
+      --shadow-panel: 0 18px 48px rgba(23, 32, 51, 0.12);
+      --shadow-popover: 0 16px 36px rgba(23, 32, 51, 0.18);
+      --radius: 8px;
+      --radius-large: 16px;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --motion: 180ms ease;
     }
 
     * {
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      font-family: var(--cb-font);
-      color: var(--cb-color-text);
-      background: var(--cb-color-bg);
+      min-width: 320px;
+      font-family: var(--font);
+      color: var(--color-text);
+      background:
+        linear-gradient(180deg, rgba(237, 243, 255, 0.8), rgba(244, 246, 248, 0) 280px),
+        var(--color-bg);
     }
 
     button,
@@ -40,37 +52,49 @@
       font: inherit;
     }
 
-    .docs-page {
-      min-height: 100dvh;
-      padding: 20px 16px 120px;
+    button {
+      cursor: pointer;
     }
 
-    .docs-shell {
+    button:focus-visible,
+    input:focus-visible,
+    a:focus-visible {
+      outline: 3px solid rgba(36, 91, 219, 0.25);
+      outline-offset: 2px;
+    }
+
+    .page {
+      min-height: 100dvh;
+      padding: 18px 14px 80px;
+    }
+
+    .shell {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 18px;
-      max-width: 1040px;
+      gap: 16px;
+      max-width: 1180px;
       margin: 0 auto;
     }
 
-    .library-menu {
+    .side {
       position: sticky;
       top: 0;
-      z-index: 10;
-      margin: -20px -16px 0;
-      padding: 14px 16px 12px;
-      border-bottom: 1px solid #e2e6ee;
-      background: rgba(246, 247, 249, 0.96);
-      backdrop-filter: blur(12px);
+      z-index: 20;
+      width: 100vw;
+      margin: -18px calc(50% - 50vw) 0;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(216, 222, 234, 0.9);
+      background: rgba(244, 246, 248, 0.94);
+      backdrop-filter: blur(14px);
     }
 
-    .library-menu__title {
+    .side__title {
       margin: 0 0 10px;
       font-size: 15px;
       font-weight: 750;
     }
 
-    .library-menu__list {
+    .nav-list {
       display: flex;
       gap: 8px;
       margin: 0;
@@ -80,797 +104,1862 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    .library-menu__item {
-      flex: 0 0 auto;
-    }
-
-    .library-menu__link {
+    .nav-link {
       display: flex;
       align-items: center;
       min-height: 40px;
       padding: 0 12px;
-      border: 1px solid #d8deea;
-      border-radius: 8px;
-      background: var(--cb-color-surface);
-      color: #384152;
-      text-decoration: none;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      background: var(--color-surface);
+      color: #344054;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 650;
+      text-decoration: none;
       white-space: nowrap;
     }
 
-    .library-menu__link[aria-current="page"] {
-      border-color: var(--cb-color-primary);
-      background: var(--cb-color-primary-weak);
-      color: #1557d6;
+    .nav-link[aria-current="page"] {
+      border-color: rgba(36, 91, 219, 0.42);
+      background: var(--color-primary-soft);
+      color: #1745ad;
     }
 
-    .library-menu__link[aria-disabled="true"] {
-      color: #9aa3b2;
-      background: #f8fafc;
-      cursor: default;
-    }
-
-    .component-content {
+    .main {
       min-width: 0;
     }
 
-    .docs-title {
-      margin: 0 0 6px;
-      font-size: 24px;
-      line-height: 1.25;
+    .library-head {
+      padding: 18px 0 6px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--color-primary);
+      font-size: 13px;
       font-weight: 750;
     }
 
-    .docs-summary {
-      margin: 0 0 22px;
-      color: var(--cb-color-text-muted);
-      font-size: 15px;
-      line-height: 1.6;
+    .title {
+      margin: 0;
+      font-size: clamp(28px, 5vw, 46px);
+      line-height: 1.12;
+      font-weight: 800;
+      letter-spacing: 0;
     }
 
-    .docs-section {
-      margin-top: 24px;
+    .summary {
+      max-width: 760px;
+      margin: 12px 0 0;
+      color: var(--color-muted);
+      font-size: 16px;
+      line-height: 1.7;
     }
 
-    .docs-heading {
-      margin: 0 0 12px;
-      font-size: 17px;
-      font-weight: 700;
+    .purpose-strip {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 18px;
     }
 
-    .docs-text {
-      margin: 0 0 10px;
-      color: var(--cb-color-text-muted);
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .demo-panel {
-      padding: 16px;
-      border: 1px solid #e2e6ee;
-      border-radius: var(--cb-radius-sm);
-      background: var(--cb-color-surface);
-    }
-
-    .preview-toolbar {
+    .purpose {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .preview-toolbar__label {
-      margin: 0;
-      color: var(--cb-color-text-muted);
-      font-size: 13px;
+      gap: 10px;
+      min-height: 48px;
+      padding: 10px 12px;
+      border: 1px solid rgba(216, 222, 234, 0.9);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.72);
+      color: #344054;
+      font-size: 14px;
       font-weight: 650;
     }
 
-    .mode-switch {
-      display: inline-flex;
-      padding: 3px;
-      border: 1px solid #d8deea;
-      border-radius: 8px;
-      background: #f8fafc;
+    .purpose__mark {
+      display: grid;
+      flex: 0 0 24px;
+      width: 24px;
+      height: 24px;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--color-primary-soft);
+      color: var(--color-primary);
+      font-size: 13px;
+      font-weight: 800;
     }
 
-    .mode-switch__button {
-      min-height: 34px;
+    .component {
+      margin-top: 26px;
+      padding-top: 4px;
+    }
+
+    .component-name {
+      margin: 0 0 14px;
+      font-size: 24px;
+      line-height: 1.3;
+      font-weight: 760;
+    }
+
+    .demo-panel {
+      overflow: hidden;
+      border: 1px solid rgba(216, 222, 234, 0.95);
+      border-radius: var(--radius-large);
+      background: var(--color-surface);
+      box-shadow: var(--shadow-panel);
+    }
+
+    .demo-toolbar {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 14px;
+      border-bottom: 1px solid #edf0f5;
+      background: var(--color-surface-soft);
+    }
+
+    .toolbar-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .toolbar-label {
+      margin: 0;
+      color: #475467;
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .segmented {
+      display: inline-flex;
+      min-height: 50px;
+      padding: 3px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      background: #eef2f7;
+    }
+
+    .segmented__button {
+      min-width: 72px;
+      min-height: 44px;
       padding: 0 12px;
       border: 0;
       border-radius: 6px;
       background: transparent;
       color: #526071;
       font-size: 14px;
-      font-weight: 650;
+      font-weight: 700;
     }
 
-    .mode-switch__button[aria-pressed="true"] {
-      background: var(--cb-color-surface);
-      color: #1557d6;
-      box-shadow: 0 1px 4px rgba(23, 32, 51, 0.12);
+    .segmented__button[aria-pressed="true"] {
+      background: var(--color-surface);
+      color: var(--color-primary);
+      box-shadow: 0 1px 5px rgba(23, 32, 51, 0.12);
     }
 
-    .cb-label {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--cb-color-text);
+    .scenario-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
     }
 
-    .cb {
-      position: relative;
-    }
-
-    .cb__field {
-      position: relative;
-      display: flex;
-      align-items: center;
-      min-height: 52px;
-      border: 1px solid var(--cb-color-border);
-      border-radius: var(--cb-radius-sm);
-      background: var(--cb-color-surface);
-      transition: border-color var(--cb-motion-fast), box-shadow var(--cb-motion-fast);
-    }
-
-    .cb__field:focus-within {
-      border-color: var(--cb-color-border-active);
-      box-shadow: var(--cb-shadow-focus);
-    }
-
-    .cb__input {
-      width: 100%;
-      min-width: 0;
-      height: 50px;
-      padding: 0 44px 0 14px;
-      border: 0;
-      outline: 0;
-      border-radius: var(--cb-radius-sm);
-      background: transparent;
-      color: var(--cb-color-text);
-      font-size: 16px;
-    }
-
-    .cb__input::placeholder {
-      color: #8b94a5;
-    }
-
-    .cb__icon,
-    .cb__clear {
-      position: absolute;
-      right: 8px;
-      width: 36px;
-      height: 36px;
-      border: 0;
-      border-radius: var(--cb-radius-sm);
-      background: transparent;
-      color: var(--cb-color-text-muted);
-      font-size: 20px;
-      line-height: 36px;
-    }
-
-    .cb__clear {
-      display: none;
-    }
-
-    .cb[data-has-value="true"] .cb__icon {
-      display: none;
-    }
-
-    .cb[data-has-value="true"] .cb__clear {
-      display: block;
-    }
-
-    .cb__hint {
-      margin: 8px 0 0;
-      color: var(--cb-color-text-muted);
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .cb-submit {
-      width: 100%;
-      min-height: 48px;
-      margin-top: 18px;
-      border: 0;
-      border-radius: var(--cb-radius-sm);
-      background: var(--cb-color-primary);
-      color: #fff;
-      font-size: 16px;
-      font-weight: 650;
-    }
-
-    .cb-result {
-      min-height: 24px;
-      margin: 12px 0 0;
-      color: var(--cb-color-success);
+    .scenario-button {
+      min-height: 44px;
+      padding: 0 10px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      background: var(--color-surface);
+      color: #344054;
       font-size: 14px;
-      line-height: 1.5;
+      font-weight: 700;
     }
 
-    .cb-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 20;
-      display: none;
-      background: transparent;
+    .scenario-button[aria-pressed="true"] {
+      border-color: rgba(36, 91, 219, 0.46);
+      background: var(--color-primary-soft);
+      color: var(--color-primary);
     }
 
-    .cb-sheet {
-      position: fixed;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      z-index: 30;
-      display: none;
-      max-height: min(64dvh, 560px);
-      padding-bottom: max(14px, env(safe-area-inset-bottom));
-      border-radius: var(--cb-radius-sheet);
-      background: var(--cb-color-surface);
-      box-shadow: var(--cb-shadow-sheet);
-      transform: translateY(100%);
-      transition: transform var(--cb-motion-sheet);
+    .demo-stage {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      padding: 16px;
+      background:
+        linear-gradient(180deg, #ffffff, #f8fafc);
     }
 
-    .cb-overlay.is-open,
-    .cb-sheet.is-open {
-      display: block;
+    .preview-zone {
+      display: grid;
+      min-height: 560px;
+      place-items: center;
+      padding: 16px;
+      border: 1px solid #edf0f5;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(90deg, rgba(216, 222, 234, 0.35) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(216, 222, 234, 0.35) 1px, transparent 1px),
+        #f7f9fc;
+      background-size: 24px 24px;
     }
 
-    .cb-overlay[data-mode="desktop"].is-open {
-      display: none;
+    .device {
+      position: relative;
+      width: min(100%, 390px);
+      transition: width var(--motion), max-width var(--motion);
     }
 
-    .cb-sheet.is-open {
-      transform: translateY(0);
+    .device[data-mode="desktop"] {
+      width: min(100%, 760px);
     }
 
-    .cb-sheet[data-mode="desktop"] {
-      right: auto;
-      bottom: auto;
-      left: var(--cb-sheet-left, 16px);
-      top: var(--cb-sheet-top, 120px);
-      width: var(--cb-sheet-width, 320px);
-      max-height: 320px;
-      padding-bottom: 8px;
-      border: 1px solid #e2e6ee;
-      border-radius: var(--cb-radius-sm);
-      box-shadow: 0 12px 32px rgba(23, 32, 51, 0.18);
-      transform: translateY(-4px);
+    .device-frame {
+      overflow: hidden;
+      border: 1px solid #cfd6e3;
+      border-radius: 30px;
+      background: #101828;
+      box-shadow: 0 24px 60px rgba(23, 32, 51, 0.2);
     }
 
-    .cb-sheet[data-mode="desktop"].is-open {
-      transform: translateY(0);
+    .device[data-mode="desktop"] .device-frame {
+      border-radius: 14px;
     }
 
-    .cb-sheet[data-mode="desktop"] .cb-sheet__header {
-      display: none;
+    .screen {
+      position: relative;
+      min-height: 640px;
+      margin: 10px;
+      overflow: hidden;
+      border-radius: 22px;
+      background: #f5f7fb;
     }
 
-    .cb-sheet[data-mode="desktop"] .cb-list {
-      max-height: 300px;
-      padding: 6px 0;
+    .device[data-mode="desktop"] .screen {
+      min-height: 500px;
+      border-radius: 8px;
     }
 
-    .cb-sheet__header {
+    .app-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      min-height: 56px;
-      padding: 10px 16px;
-      border-bottom: 1px solid #eef1f5;
+      gap: 10px;
+      min-height: 60px;
+      padding: 14px 16px;
+      border-bottom: 1px solid #e6ebf2;
+      background: rgba(255, 255, 255, 0.94);
     }
 
-    .cb-sheet__title {
+    .app-title {
       margin: 0;
-      font-size: 16px;
+      font-size: 17px;
+      font-weight: 760;
+    }
+
+    .app-step {
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: #eef2f7;
+      color: #475467;
+      font-size: 12px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .app-body {
+      padding: 16px;
+    }
+
+    .form-card {
+      border: 1px solid #e6ebf2;
+      border-radius: 12px;
+      background: var(--color-surface);
+    }
+
+    .form-row {
+      padding: 14px;
+      border-bottom: 1px solid #edf0f5;
+    }
+
+    .form-row:last-child {
+      border-bottom: 0;
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 8px;
+      color: #344054;
+      font-size: 14px;
       font-weight: 700;
     }
 
-    .cb-sheet__close {
+    .combo {
+      position: relative;
+    }
+
+    .combo__field {
+      position: relative;
+      display: flex;
+      align-items: center;
+      min-height: 50px;
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius);
+      background: var(--color-surface);
+      transition: border-color var(--motion), box-shadow var(--motion), background var(--motion);
+    }
+
+    .combo__field:focus-within,
+    .combo[data-open="true"] .combo__field {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(36, 91, 219, 0.14);
+    }
+
+    .combo[data-invalid="true"] .combo__field {
+      border-color: var(--color-error);
+      background: #fffafa;
+      box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.1);
+    }
+
+    .combo__input {
+      width: 100%;
+      min-width: 0;
+      height: 48px;
+      padding: 0 84px 0 12px;
+      border: 0;
+      outline: 0;
+      border-radius: var(--radius);
+      background: transparent;
+      color: var(--color-text);
+      font-size: 16px;
+    }
+
+    .combo__input::placeholder {
+      color: #98a2b3;
+    }
+
+    .combo__clear,
+    .combo__toggle {
+      position: absolute;
+      top: 50%;
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border: 0;
+      border-radius: var(--radius);
+      background: transparent;
+      color: #667085;
+      transform: translateY(-50%);
+    }
+
+    .combo__clear {
+      right: 42px;
+      display: none;
+      font-size: 20px;
+    }
+
+    .combo__toggle {
+      right: 6px;
+      font-size: 17px;
+    }
+
+    .combo[data-has-value="true"] .combo__clear {
+      display: grid;
+    }
+
+    .field-message {
+      min-height: 21px;
+      margin: 8px 0 0;
+      color: var(--color-muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .field-message.is-error {
+      color: var(--color-error);
+      font-weight: 650;
+    }
+
+    .field-message.is-success {
+      color: var(--color-success);
+      font-weight: 650;
+    }
+
+    .readonly-field {
+      display: flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 0 12px;
+      border-radius: var(--radius);
+      background: #f7f9fc;
+      color: #475467;
+      font-size: 14px;
+    }
+
+    .primary-action {
+      width: 100%;
+      min-height: 48px;
+      margin-top: 14px;
+      border: 0;
+      border-radius: var(--radius);
+      background: var(--color-primary);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 750;
+      transition: transform var(--motion), background var(--motion);
+    }
+
+    .primary-action:active {
+      transform: scale(0.99);
+    }
+
+    .primary-action.is-success {
+      background: var(--color-success);
+    }
+
+    .primary-action.is-error {
+      background: var(--color-error);
+    }
+
+    .result-banner {
+      display: none;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .result-banner.is-visible {
+      display: flex;
+    }
+
+    .result-banner.is-success {
+      border: 1px solid rgba(31, 122, 77, 0.22);
+      background: var(--color-success-soft);
+      color: var(--color-success);
+    }
+
+    .result-banner.is-error {
+      border: 1px solid rgba(180, 35, 24, 0.18);
+      background: var(--color-error-soft);
+      color: var(--color-error);
+    }
+
+    .sheet {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 5;
+      display: none;
+      max-height: 58%;
+      overflow: hidden;
+      border-radius: 18px 18px 0 0;
+      background: var(--color-surface);
+      box-shadow: 0 -16px 40px rgba(23, 32, 51, 0.2);
+      transform: translateY(100%);
+      transition: transform 220ms ease;
+    }
+
+    .sheet.is-open {
+      display: block;
+      transform: translateY(0);
+    }
+
+    .device[data-mode="desktop"] .sheet {
+      right: auto;
+      bottom: auto;
+      left: var(--popover-left, 16px);
+      top: var(--popover-top, 160px);
+      width: var(--popover-width, 320px);
+      max-height: 280px;
+      border: 1px solid #e6ebf2;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-popover);
+      transform: translateY(-4px);
+    }
+
+    .device[data-mode="desktop"] .sheet.is-open {
+      transform: translateY(0);
+    }
+
+    .sheet__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 54px;
+      padding: 10px 14px;
+      border-bottom: 1px solid #edf0f5;
+    }
+
+    .device[data-mode="desktop"] .sheet__header {
+      display: none;
+    }
+
+    .sheet__title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 750;
+    }
+
+    .sheet__close {
       min-width: 44px;
       min-height: 36px;
       border: 0;
-      border-radius: var(--cb-radius-sm);
-      background: #f1f3f7;
-      color: #384152;
-      font-size: 14px;
-    }
-
-    .cb-list {
-      max-height: calc(min(64dvh, 560px) - 72px);
-      overflow-y: auto;
-      padding: 8px 0;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .cb-list__group-title {
-      margin: 14px 16px 6px;
-      color: var(--cb-color-text-muted);
-      font-size: 12px;
+      border-radius: var(--radius);
+      background: #eef2f7;
+      color: #344054;
       font-weight: 700;
     }
 
-    .cb-option,
-    .cb-use-input {
+    .option-list {
+      max-height: 310px;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+
+    .option-group {
+      margin: 12px 14px 5px;
+      color: #667085;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .option {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      gap: 10px;
       width: 100%;
       min-height: 50px;
-      padding: 10px 16px;
+      padding: 10px 14px;
       border: 0;
-      background: var(--cb-color-surface);
-      color: var(--cb-color-text);
+      background: var(--color-surface);
+      color: var(--color-text);
       text-align: left;
-      font-size: 16px;
-    }
-
-    .cb-option:active,
-    .cb-use-input:active {
-      background: var(--cb-color-primary-weak);
-    }
-
-    .cb-option[aria-selected="true"] {
-      background: var(--cb-color-primary-weak);
-      color: #1557d6;
-      font-weight: 650;
-    }
-
-    .cb-empty {
-      padding: 28px 16px 10px;
-    }
-
-    .cb-empty__text {
-      margin: 0 0 14px;
-      color: var(--cb-color-text-muted);
-      text-align: center;
       font-size: 15px;
     }
 
-    .cb-use-input {
-      justify-content: center;
-      border: 1px solid #c8d8ff;
-      border-radius: var(--cb-radius-sm);
-      background: #f4f8ff;
-      color: #1557d6;
-      font-weight: 650;
+    .option:active,
+    .option:hover {
+      background: var(--color-primary-soft);
     }
 
-    .state-grid {
+    .option[aria-selected="true"] {
+      background: var(--color-primary-soft);
+      color: var(--color-primary);
+      font-weight: 750;
+    }
+
+    .option__tag {
+      flex: 0 0 auto;
+      padding: 3px 6px;
+      border-radius: 999px;
+      background: #eef2f7;
+      color: #667085;
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    .empty-result {
+      padding: 24px 14px 14px;
+      text-align: center;
+    }
+
+    .empty-result__title {
+      margin: 0 0 8px;
+      color: #344054;
+      font-size: 15px;
+      font-weight: 750;
+    }
+
+    .empty-result__text {
+      margin: 0 0 14px;
+      color: var(--color-muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .use-current {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid rgba(36, 91, 219, 0.32);
+      border-radius: var(--radius);
+      background: var(--color-primary-soft);
+      color: var(--color-primary);
+      font-weight: 750;
+    }
+
+    .rules-panel {
       display: grid;
-      grid-template-columns: 1fr;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .status-card,
+    .rule-card {
+      border: 1px solid #e1e6ef;
+      border-radius: var(--radius);
+      background: var(--color-surface);
+    }
+
+    .status-card {
+      padding: 14px;
+    }
+
+    .status-title,
+    .rule-title {
+      margin: 0 0 10px;
+      font-size: 15px;
+      font-weight: 760;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 8px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 24px minmax(0, 1fr);
       gap: 10px;
-    }
-
-    .state-item {
-      padding: 12px;
-      border: 1px solid #e2e6ee;
-      border-radius: var(--cb-radius-sm);
-      background: var(--cb-color-surface);
-    }
-
-    .state-name {
-      margin: 0 0 4px;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .state-desc {
-      margin: 0;
-      color: var(--cb-color-text-muted);
+      align-items: start;
+      color: #526071;
       font-size: 13px;
       line-height: 1.5;
     }
 
-    .api-table {
-      width: 100%;
-      border-collapse: collapse;
-      overflow: hidden;
-      border: 1px solid #e2e6ee;
-      border-radius: var(--cb-radius-sm);
-      background: var(--cb-color-surface);
+    .timeline-dot {
+      display: grid;
+      width: 24px;
+      height: 24px;
+      place-items: center;
+      border-radius: 999px;
+      background: #eef2f7;
+      color: #475467;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .timeline-item.is-active .timeline-dot {
+      background: var(--color-primary);
+      color: #ffffff;
+    }
+
+    .timeline-item.is-success .timeline-dot {
+      background: var(--color-success);
+      color: #ffffff;
+    }
+
+    .timeline-item.is-error .timeline-dot {
+      background: var(--color-error);
+      color: #ffffff;
+    }
+
+    .timeline-text strong {
+      display: block;
+      margin-bottom: 2px;
+      color: #344054;
       font-size: 13px;
     }
 
-    .api-table th,
-    .api-table td {
-      padding: 10px;
-      border-bottom: 1px solid #e9edf3;
-      text-align: left;
-      vertical-align: top;
+    .rule-card {
+      padding: 14px;
     }
 
-    .api-table th {
-      color: #384152;
-      font-weight: 700;
-      background: #f9fafc;
+    .rule-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
     }
 
-    .api-table tr:last-child td {
-      border-bottom: 0;
+    .rule-list li {
+      color: var(--color-muted);
+      font-size: 14px;
+      line-height: 1.65;
     }
 
-    code {
-      padding: 1px 4px;
-      border-radius: 4px;
-      background: #eef1f5;
-      color: #384152;
+    .rule-list strong {
+      color: var(--color-text);
+    }
+
+    .generation-rules {
+      margin-top: 28px;
+      padding: 18px;
+      border: 1px solid #dfe5ef;
+      border-radius: var(--radius-large);
+      background: var(--color-surface);
+    }
+
+    .transfer-surface {
+      position: relative;
+      min-height: 100%;
+      padding-bottom: 82px;
+      background: #f5f7fb;
+    }
+
+    .transfer-intro {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+      border: 1px solid #e6ebf2;
+      border-radius: 12px;
+      background: var(--color-surface);
+    }
+
+    .transfer-intro__title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 760;
+    }
+
+    .transfer-intro__text {
+      margin: -5px 0 0;
+      color: var(--color-muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .transfer-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .transfer-action,
+    .transfer-button {
+      min-height: 44px;
+      padding: 0 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      background: var(--color-surface);
+      color: #344054;
+      font-size: 13px;
+      font-weight: 750;
+      transition: background var(--motion), border-color var(--motion), color var(--motion);
+    }
+
+    .transfer-action:hover,
+    .transfer-button:hover {
+      border-color: rgba(36, 91, 219, 0.42);
+      background: var(--color-primary-soft);
+      color: var(--color-primary);
+    }
+
+    .transfer-action--primary,
+    .transfer-button--primary {
+      border-color: var(--color-primary);
+      background: var(--color-primary);
+      color: #ffffff;
+    }
+
+    .transfer-action--primary:hover,
+    .transfer-button--primary:hover {
+      background: #174bbf;
+      color: #ffffff;
+    }
+
+    .inline-demo {
+      display: none;
+      margin-top: 12px;
+    }
+
+    .inline-demo.is-visible {
+      display: block;
+    }
+
+    .transfer-item {
+      display: grid;
+      gap: 9px;
+      padding: 12px;
+      border: 1px solid #e1e6ef;
+      border-radius: var(--radius);
+      background: var(--color-surface);
+    }
+
+    .transfer-item.is-complete {
+      border-color: rgba(31, 122, 77, 0.25);
+      background: #fbfffd;
+    }
+
+    .transfer-item.is-failed {
+      border-color: rgba(180, 35, 24, 0.25);
+      background: #fffafa;
+    }
+
+    .transfer-item__head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .transfer-file {
+      display: flex;
+      min-width: 0;
+      gap: 9px;
+      align-items: flex-start;
+    }
+
+    .transfer-file__icon {
+      display: grid;
+      flex: 0 0 32px;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      border-radius: var(--radius);
+      background: var(--color-primary-soft);
+      color: var(--color-primary);
+    }
+
+    .transfer-file__icon svg {
+      width: 17px;
+      height: 17px;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 1.8;
+    }
+
+    .transfer-item__name {
+      margin: 0;
+      color: #344054;
+      font-size: 14px;
+      font-weight: 750;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
+    }
+
+    .transfer-item__status {
+      margin: 2px 0 0;
+      color: var(--color-muted);
       font-size: 12px;
+      line-height: 1.45;
     }
 
-    @media (min-width: 800px) {
-      .docs-page {
-        padding-top: 28px;
+    .transfer-percent {
+      min-width: 42px;
+      color: #344054;
+      font-size: 13px;
+      font-weight: 780;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .transfer-percent.is-complete {
+      color: var(--color-success);
+    }
+
+    .transfer-percent.is-failed {
+      color: var(--color-error);
+    }
+
+    .transfer-progress {
+      overflow: hidden;
+      height: 8px;
+      border-radius: 999px;
+      background: #e9edf4;
+    }
+
+    .transfer-progress__bar {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--color-primary);
+      transition: width 260ms ease;
+    }
+
+    .transfer-item.is-complete .transfer-progress__bar {
+      background: var(--color-success);
+    }
+
+    .transfer-item.is-failed .transfer-progress__bar {
+      background: var(--color-error);
+    }
+
+    .transfer-item__foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--color-muted);
+      font-size: 12px;
+      line-height: 1.4;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .transfer-item__meta {
+      min-width: 0;
+    }
+
+    .transfer-retry {
+      flex: 0 0 auto;
+      min-width: 64px;
+      min-height: 36px;
+      border: 1px solid rgba(36, 91, 219, 0.34);
+      border-radius: var(--radius);
+      background: var(--color-primary-soft);
+      color: var(--color-primary);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .processing-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 7px 10px;
+      border-radius: var(--radius);
+      background: #f7f9fc;
+      color: #475467;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .processing-status__pulse {
+      flex: 0 0 8px;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--color-primary);
+      animation: transfer-pulse 1.2s ease-in-out infinite;
+    }
+
+    @keyframes transfer-pulse {
+      50% { opacity: 0.35; transform: scale(0.75); }
+    }
+
+    .task-entry {
+      position: absolute;
+      right: 16px;
+      bottom: 16px;
+      z-index: 7;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      min-width: 206px;
+      max-width: calc(100% - 32px);
+      min-height: 44px;
+      padding: 8px 12px;
+      border: 1px solid rgba(36, 91, 219, 0.24);
+      border-radius: 12px;
+      background: var(--color-surface);
+      color: var(--color-text);
+      text-align: left;
+      box-shadow: 0 16px 36px rgba(23, 32, 51, 0.16);
+    }
+
+    .task-entry.is-visible { display: flex; }
+
+    .task-entry__count {
+      display: grid;
+      flex: 0 0 34px;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--color-primary-soft);
+      color: var(--color-primary);
+      font-size: 13px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .task-entry__body { min-width: 0; flex: 1; }
+
+    .task-entry__title,
+    .task-entry__text {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .task-entry__title { color: #344054; font-size: 14px; font-weight: 780; }
+    .task-entry__text { margin-top: 2px; color: var(--color-muted); font-size: 12px; }
+
+    .task-panel {
+      position: absolute;
+      right: 16px;
+      bottom: 16px;
+      z-index: 8;
+      display: none;
+      width: min(340px, calc(100% - 32px));
+      max-height: calc(100% - 32px);
+      overflow: hidden;
+      border: 1px solid #e1e6ef;
+      border-radius: 14px;
+      background: var(--color-surface);
+      box-shadow: 0 20px 48px rgba(23, 32, 51, 0.18);
+    }
+
+    .task-panel.is-open { display: block; }
+
+    .task-panel__handle { display: none; }
+
+    .task-panel__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px;
+      border-bottom: 1px solid #edf0f5;
+      background: #fbfcff;
+    }
+
+    .task-panel__title { margin: 0; font-size: 16px; font-weight: 780; }
+    .task-panel__subtitle { margin: 3px 0 0; color: var(--color-muted); font-size: 12px; line-height: 1.45; }
+
+    .task-panel__collapse {
+      min-width: 52px;
+      min-height: 36px;
+      border: 0;
+      border-radius: var(--radius);
+      background: #eef2f7;
+      color: #344054;
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .task-panel__body {
+      display: grid;
+      gap: 10px;
+      max-height: 342px;
+      overflow-y: auto;
+      padding: 12px;
+    }
+
+    .blocking-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(23, 32, 51, 0.56);
+    }
+
+    .blocking-layer.is-open { display: flex; }
+
+    .blocking-dialog {
+      width: min(100%, 420px);
+      padding: 18px;
+      border-radius: 14px;
+      background: var(--color-surface);
+      box-shadow: var(--shadow-popover);
+    }
+
+    .blocking-dialog__title { margin: 0; font-size: 18px; font-weight: 780; }
+    .blocking-dialog__text { margin: 7px 0 16px; color: var(--color-muted); font-size: 13px; line-height: 1.55; }
+    .blocking-dialog__actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+
+    .device[data-mode="mobile"] .task-panel {
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      max-height: 72%;
+      border-width: 1px 0 0;
+      border-radius: 18px 18px 0 0;
+      box-shadow: 0 -16px 40px rgba(23, 32, 51, 0.2);
+    }
+
+    .device[data-mode="mobile"] .task-panel__handle {
+      display: block;
+      width: 36px;
+      height: 4px;
+      margin: 8px auto 0;
+      border-radius: 999px;
+      background: #d0d5dd;
+    }
+
+
+    .section-title {
+      margin: 0 0 12px;
+      font-size: 22px;
+      font-weight: 760;
+    }
+
+    .generation-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .generation-step {
+      padding: 14px;
+      border: 1px solid #e6ebf2;
+      border-radius: var(--radius);
+      background: var(--color-surface-soft);
+    }
+
+    .generation-step h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      font-weight: 760;
+    }
+
+    .generation-step p {
+      margin: 0;
+      color: var(--color-muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    @media (min-width: 680px) {
+      .purpose-strip,
+      .generation-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
-      .docs-shell {
+      .scenario-row {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .scenario-button {
+        flex: 1 1 110px;
+      }
+    }
+
+    @media (min-width: 980px) {
+      .page {
+        padding: 28px 22px 100px;
+      }
+
+      .shell {
         grid-template-columns: 240px minmax(0, 1fr);
         align-items: start;
       }
 
-      .library-menu {
-        top: 20px;
+      .side {
+        top: 22px;
+        width: auto;
         margin: 0;
         padding: 14px;
-        border: 1px solid #e2e6ee;
-        border-radius: var(--cb-radius-sm);
-        background: var(--cb-color-surface);
+        border: 1px solid rgba(216, 222, 234, 0.95);
+        border-radius: var(--radius);
+        background: var(--color-surface);
         backdrop-filter: none;
       }
 
-      .library-menu__list {
+      .nav-list {
         display: grid;
-        gap: 8px;
         overflow: visible;
       }
 
-      .library-menu__item {
-        min-width: 0;
+      .nav-link {
+        width: 100%;
       }
 
-      .library-menu__link {
-        width: 100%;
+      .demo-toolbar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .demo-stage {
+        grid-template-columns: minmax(0, 1fr) 320px;
+        padding: 18px;
+      }
+    }
+
+
+    .upload-preview { display: none; position: absolute; inset: 0; z-index: 30; align-items: center; justify-content: center; padding: 16px; background: rgba(23, 32, 51, .42); }
+    .upload-preview.is-visible { display: flex; }
+    #transferDevice .transfer-surface { min-height: 640px; }
+    #transferDevice[data-mode="desktop"] .transfer-surface { min-height: 500px; }
+    .upload-close { display: grid; place-items: center; width: 32px; height: 32px; margin: -6px -6px -6px 0; padding: 0; border: 0; border-radius: 6px; background: transparent; color: var(--color-muted); font-size: 22px; }
+    .upload-close:hover { background: var(--color-surface-soft); }
+    .upload-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 14px; font-weight: 650; }
+    .upload-number { display: flex; align-items: baseline; font-size: 32px; font-weight: 750; letter-spacing: -1px; font-variant-numeric: tabular-nums; line-height: 1.2; }
+    .upload-number small { margin-left: 8px; color: var(--color-muted); font-size: 13px; font-weight: 400; letter-spacing: 0; }
+    .roll-value { display: inline-flex; vertical-align: bottom; }
+    .roll-cell { display: inline-grid; overflow: hidden; height: 1.2em; line-height: 1.2; }
+    .roll-cell > span { grid-area: 1 / 1; white-space: pre; }
+    .upload-preview[data-state="completed"] .upload-number { color: var(--color-success); }
+    .upload-copy { width: min(100%, 300px); min-width: 0; max-height: 440px; overflow-y: auto; padding: 18px; border: 1px solid var(--color-border); border-radius: 14px; background: var(--color-surface); box-shadow: var(--shadow-popover); }
+    .upload-copy p { margin: 0; }
+    .upload-track { height: 5px; margin-top: 16px; overflow: hidden; border-radius: 8px; background: var(--color-primary-soft); }
+    .upload-track > span { display: block; height: 100%; background: var(--color-primary); transform: scaleX(0); transform-origin: left; transition: transform 360ms ease, background 180ms ease; }
+    .upload-preview[data-state="completed"] .upload-track > span { background: var(--color-success); }
+    .upload-name { margin-top: 12px; max-height: 132px; overflow-y: auto; font-size: 13px; font-weight: 500; }
+    .upload-file-row { overflow: hidden; min-width: 0; }
+    .upload-file-content { display: flex; align-items: center; gap: 10px; min-height: 36px; }
+    .upload-file-symbol { width: 16px; flex: 0 0 16px; color: var(--color-success); }
+    .upload-file-info { min-width: 0; flex: 1; }
+    .upload-file-title { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .upload-file-meta:empty { display: none; }
+    .upload-name:empty { display: none; }
+    .upload-file-meta { display: block; margin-top: 4px; color: var(--color-muted); font-size: 12px; font-weight: 400; font-variant-numeric: tabular-nums; }
+    .upload-file-row.is-success, .upload-file-row.is-success .upload-file-meta { color: var(--color-success); }
+    .upload-file-row.is-success .upload-file-symbol { color: var(--color-success); background: var(--color-success-soft); }
+    .upload-file-row.is-failed .upload-file-meta { color: var(--color-error); }
+    .upload-file-row button { flex-shrink: 0; min-height: 44px; border: 0; background: transparent; color: var(--color-primary); font-size: 12px; }
+    .upload-copy .upload-caption { margin-top: 10px; font-size: 12px; color: var(--color-muted); line-height: 1.6; }
+    .upload-preview [hidden] { display: none; }
+    @media (max-width: 480px) { .upload-preview { padding: 12px; } .upload-header { gap: 8px; } }
+
+    /* Developer-tool theme: scoped to the transfer demo. */
+    #transferDevice { --color-text: #e3e8ef; --color-muted: #9aa6b5; --color-border: #303a46; --color-primary: #77e6b5; --color-primary-soft: #203b33; --color-success: #77e6b5; --color-success-soft: #203b33; --color-error: #ff9d92; --color-surface: #171e26; --color-surface-soft: #202935; --task-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+    #transferDevice .screen, #transferDevice .transfer-surface { background: #10161d; color: var(--color-text); }
+    #transferDevice .app-top { background: #151c24; border-color: #303a46; }
+    #transferDevice .app-title { font-family: var(--task-mono); font-size: 13px; font-weight: 500; letter-spacing: .02em; }
+    #transferDevice .app-step { background: transparent; color: #9aa6b5; font-family: var(--task-mono); font-size: 10px; }
+    #transferDevice .transfer-intro { border: 1px solid #303a46; border-radius: 8px; background: #171e26; }
+    #transferDevice .transfer-intro__title { font-size: 14px; }
+    #transferDevice .transfer-intro__text { color: #9aa6b5; }
+    #transferDevice .transfer-action, #transferDevice .transfer-button { background: #1d2631; color: #cbd4df; border-color: #344151; border-radius: 5px; font-weight: 500; }
+    #transferDevice .transfer-action:hover, #transferDevice .transfer-button:hover { background: #263444; border-color: #6b8098; }
+    #transferDevice .transfer-action--primary, #transferDevice .transfer-button--primary { background: #77e6b5; border-color: #77e6b5; color: #10251d; }
+    #transferDevice .transfer-action--primary:hover { background: #a0f3cd; }
+    #transferDevice button:focus-visible, #transferDevice [tabindex]:focus-visible { outline: 2px solid #a0f3cd; outline-offset: 3px; }
+    #transferDevice .upload-preview { background: rgba(4, 9, 15, .68); backdrop-filter: blur(3px); }
+    #transferDevice .upload-copy { width: min(100%, 300px); padding: 18px; border: 1px solid #3b4857; border-top: 2px solid #77e6b5; border-radius: 8px; background: #171e26; box-shadow: 0 18px 56px #0008; }
+    #transferDevice .upload-header { font-size: 12px; padding-bottom: 12px; border-bottom: 1px solid #2d3743; }
+    #transferDevice .upload-header::before { content: ">_"; color: #77e6b5; font-family: var(--task-mono); font-size: 14px; }
+    #transferDevice #uploadTitle { flex: 1; }
+    #transferDevice .upload-close { color: #9aa6b5; border-radius: 4px; }
+    #transferDevice .upload-close:hover { color: #fff; background: #293441; }
+    #transferDevice .upload-readout { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    #transferDevice .upload-number { font: 500 36px/1.2 var(--task-mono); letter-spacing: -1.5px; }
+    #transferDevice .upload-number small { font-family: var(--task-mono); }
+    #transferDevice .task-code { font: 11px/1.5 var(--task-mono); color: #77e6b5; letter-spacing: .06em; }
+    #transferDevice .upload-track { height: 4px; border-radius: 0; background: #2b3542; }
+    #transferDevice .upload-track > span { background: #77e6b5; }
+    #transferDevice .upload-caption { font-family: var(--task-mono); font-size: 11px; color: #9aa6b5; }
+    #transferDevice .upload-name { border-top: 1px dashed #344151; padding-top: 8px; font-size: 12px; }
+    #transferDevice .upload-name:empty { border: 0; padding: 0; }
+    #transferDevice .upload-file-content { min-height: 36px; }
+    #transferDevice .upload-file-title { font-family: var(--task-mono); font-size: 12px; font-weight: 400; }
+    #transferDevice .upload-file-symbol { font-family: var(--task-mono); font-size: 13px; color: #9aa6b5; }
+    #transferDevice .upload-file-row.is-success .upload-file-symbol { color: #77e6b5; background: transparent; }
+    #transferDevice .upload-file-row.is-failed .upload-file-symbol { color: #ff9d92; }
+    #transferDevice .upload-file-row button { color: #ffb3a9; font-size: 12px; }
+    #transferDevice .upload-file-row button:hover { text-decoration: underline; }
+    #transferDevice .upload-preview[data-state="failed"] .upload-copy { border-top-color: #ff9d92; }
+    #transferDevice .upload-preview[data-state="failed"] .task-code { color: #ff9d92; }
+    #transferDevice .upload-preview[data-state="failed"] .upload-track > span { background: #ff9d92; }
+    #transferDevice .transfer-item { background: #171e26; border-color: #344151; border-radius: 6px; }
+    #transferDevice .transfer-item.is-complete { border-color: #35584a; }
+    #transferDevice .transfer-item.is-failed { border-color: #704843; }
+    #transferDevice .transfer-item__name, #transferDevice .transfer-percent, #transferDevice .task-entry__title { color: #e3e8ef; }
+    #transferDevice .transfer-item__name { font-family: var(--task-mono); font-size: 12px; font-weight: 400; }
+    #transferDevice .transfer-percent { font-family: var(--task-mono); font-weight: 500; }
+    #transferDevice .transfer-percent.is-complete { color: #77e6b5; }
+    #transferDevice .transfer-percent.is-failed { color: #ff9d92; }
+    #transferDevice .transfer-progress { height: 3px; border-radius: 0; background: #2b3542; }
+    #transferDevice .transfer-file__icon { background: #202b37; color: #92c8ef; border-radius: 4px; }
+    #transferDevice .task-panel, #transferDevice .task-entry { background: #171e26; border-color: #3b4857; border-radius: 8px; }
+    #transferDevice .task-panel__header { background: #1b242e; border-color: #344151; }
+    #transferDevice .task-panel__title { font-size: 14px; }
+    #transferDevice .task-panel__collapse { color: #cbd4df; background: #293441; }
+    #transferDevice .task-entry__count { border-radius: 4px; font-family: var(--task-mono); }
+    #transferDevice .processing-status { background: #202b37; color: #bac7d5; }
+    #transferDevice .blocking-dialog { background: #171e26; border: 1px solid #3b4857; border-radius: 8px; }
+    #transferDevice .blocking-dialog__text { color: #9aa6b5; }
+
+    #transferDevice .upload-name[data-expanded="false"] .upload-file-row:nth-child(n+2) { display: none; }
+    #transferDevice .upload-name { max-height: 132px; scrollbar-width: thin; scrollbar-color: #48596c transparent; }
+    #transferDevice .upload-list-actions { display: flex; flex-wrap: wrap; gap: 0 12px; }
+    #transferDevice .upload-list-actions button { border: 0; padding: 0; min-height: 36px; color: #a8b8c9; background: transparent; font-size: 11px; text-align: left; }
+    #transferDevice .upload-list-actions button:hover { color: #77e6b5; }
+    #transferDevice #uploadRetryAll { color: #ffb3a9; }
+    #transferDevice .upload-copy { width: min(100%, 280px); padding: 16px; border-top-width: 1px; }
+    #transferDevice .upload-header { margin-bottom: 0; padding-bottom: 0; border: 0; }
+    #transferDevice .upload-header::before { content: none; }
+    #transferDevice .upload-track { margin-top: 14px; height: 3px; }
+    #transferDevice .upload-name { margin-top: 8px; padding-top: 0; border: 0; }
+    #transferDevice .upload-footer { display: flex; align-items: center; justify-content: space-between; gap: 4px 12px; flex-wrap: wrap; margin-top: 6px; }
+    #transferDevice .upload-footer .upload-caption { margin: 0; }
+    #transferDevice .upload-footer .upload-list-actions { margin-left: auto; }
+    #transferDevice .upload-list-actions button { min-height: 28px; }
+    #transferDevice .upload-copy { width: min(100%, 240px); padding: 12px; border-radius: 7px; }
+    #transferDevice .upload-header { gap: 8px; min-height: 22px; font-size: 12px; }
+    #transferDevice .upload-close { width: 24px; height: 24px; margin: -2px -2px -2px 0; font-size: 18px; }
+    #transferDevice .upload-track { margin-top: 8px; height: 2px; }
+    #transferDevice .upload-name { margin-top: 4px; }
+    #transferDevice .upload-file-content { min-height: 28px; gap: 6px; }
+    #transferDevice .upload-file-symbol { width: 12px; flex-basis: 12px; }
+    #transferDevice .upload-file-title { font-size: 11px; }
+    #transferDevice .upload-footer { margin-top: 4px; gap: 2px 8px; }
+    #transferDevice .upload-footer .upload-caption { font-size: 10px; }
+    #transferDevice .upload-list-actions button { min-height: 22px; font-size: 10px; }
+    #transferDevice .upload-file-row button { min-height: 28px; font-size: 11px; }
+    #transferDevice .upload-name[data-expanded="false"] { overflow: hidden; }
+    #transferDevice .upload-file-row.is-success .upload-file-title { color: #77e6b5; }
+    /* Quiet material depth and state-driven motion; keep the compact footprint. */
+    #transferDevice .upload-preview { background: rgba(5, 10, 16, .5); backdrop-filter: blur(2px); }
+    #transferDevice .upload-copy { min-height: 112px; border-radius: 12px; border-color: rgba(187, 208, 226, .22); background: linear-gradient(135deg, rgba(40, 52, 64, .95), rgba(22, 30, 39, .96)); box-shadow: inset 0 1px 0 rgba(240, 249, 255, .06), 0 12px 36px rgba(0, 0, 0, .32); backdrop-filter: blur(16px); }
+    #transferDevice .upload-preview.is-visible .upload-copy { animation: compact-transfer-enter 180ms cubic-bezier(.2,.8,.2,1) both; }
+    @keyframes compact-transfer-enter { from { opacity: 0; transform: translateY(5px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    #transferDevice .upload-track { border-radius: 2px; background: rgba(173,195,218,.16); }
+    #transferDevice .upload-track > span { border-radius: inherit; transition: transform 360ms cubic-bezier(.2,.7,.2,1); }
+    #transferDevice .upload-preview[data-state="completed"] #uploadTitle { color: #9ef1c9; }
+    #transferDevice .upload-preview[data-state="completed"] #uploadTitle::before { content: "✓ "; }
+    #transferDevice .upload-preview[data-state="failed"] #uploadTitle { color: #ffb3a9; }
+    #transferDevice .upload-close, #transferDevice .upload-list-actions button { transition: color 140ms ease, background 140ms ease; }
+    #transferDevice .upload-close:active { transform: scale(.94); }
+    @media (prefers-reduced-transparency: reduce) { #transferDevice .upload-copy { background: #1b242e; backdrop-filter: none; } #transferDevice .upload-preview { backdrop-filter: none; background: rgba(5,10,16,.7); } }
+    #transferDevice .transfer-numeric-progress { color: #c1e9d8; min-width: 4ch; text-align: right; font: 11px/1.4 var(--task-mono); font-variant-numeric: tabular-nums; }
+    #transferDevice .upload-name[data-expanded="false"] { position: relative; height: 28px; }
+    #transferDevice .upload-name[data-expanded="false"] .upload-file-meta { display: none; }
+    #transferDevice .upload-name[data-expanded="false"] .upload-file-row[data-entering] { display: block; position: absolute; top: 0; left: 0; right: 0; }
+    #transferDevice .upload-name .upload-file-content { backface-visibility: hidden; }
+    #transferDevice .upload-header { gap: 6px; }
+    #transferDevice #uploadTitle { white-space: nowrap; }
+    #transferDevice .transfer-numeric-progress { white-space: nowrap; font-size: 10px; }
+    #transferDevice .upload-close { flex: 0 0 24px; }
+    #transferDevice #uploadContinue { color: #9ef1c9; }
+    #transferDevice .upload-preview[data-state="partial"] #uploadTitle { color: #e4cc98; }
+    .tree-wrap { overflow-x: auto; margin: 20px; border: 1px solid var(--color-border); border-radius: 8px; }
+    .tree-table { width: 100%; min-width: 520px; border-collapse: collapse; text-align: left; font-size: 14px; }
+    .tree-table caption { text-align: left; padding: 16px; font-weight: 700; }
+    .tree-table th, .tree-table td { padding: 12px 16px; border-top: 1px solid var(--color-border); }
+    .tree-table thead { background: var(--color-surface-soft); color: var(--color-muted); }
+    .tree-table tbody tr:hover { background: var(--color-primary-soft); }
+    .tree-name { display: flex; align-items: center; padding-left: calc(var(--depth) * 24px); gap: 8px; white-space: nowrap; }
+    .tree-toggle, .tree-spacer { display: inline-grid; place-items: center; width: 44px; height: 44px; flex: 0 0 44px; }
+    .tree-toggle { border: 0; border-radius: 6px; background: transparent; color: var(--color-primary); }
+    .tree-toggle:hover { background: var(--color-primary-soft); }
+    .tree-toggle svg { width: 16px; transition: transform var(--motion); }
+    .tree-toggle[aria-expanded="true"] svg { transform: rotate(90deg); }
+    .tree-help { margin: 0 20px 20px; color: var(--color-muted); line-height: 1.7; font-size: 14px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
       }
     }
   </style>
 </head>
 <body>
-  <main class="docs-page">
-    <div class="docs-shell">
-      <nav class="library-menu" aria-label="组件库列表">
-        <p class="library-menu__title">组件库</p>
-        <ul class="library-menu__list" id="componentMenu"></ul>
+  <main class="page">
+    <div class="shell">
+      <nav class="side" aria-label="业务交互组件">
+        <p class="side__title">业务交互组件库</p>
+        <ul class="nav-list">
+          <li><a class="nav-link" href="#company-selector" aria-current="page">选择输入组合框</a></li>
+          <li><a class="nav-link" href="#transfer-progress">上传 / 下载任务进度</a></li>
+          <li><a class="nav-link" href="#hierarchy-table">多层级表格</a></li>
+          <li><a class="nav-link" href="#creation-rules">新增组件生成规则</a></li>
+        </ul>
       </nav>
 
-      <div class="component-content" id="combobox">
-        <h1 class="docs-title">Combobox 组合输入框</h1>
-        <p class="docs-summary">
-          用于移动端“可输入 + 可选择”的统一输入体验。输入框是唯一主控件，候选 bottom sheet 以非模态方式辅助输入。
-        </p>
+      <div class="main">
+        <header class="library-head">
+          <p class="eyebrow">Demo优先 · 交互规则沉淀</p>
+          <h1 class="title">业务交互组件库</h1>
+          <p class="summary">
+            面向产品确认交互方案、设计查看高保真效果、前端参考组件行为。这里沉淀的是业务交互样张，不输出 API 文档、技术参数或代码说明。
+          </p>
+          <div class="purpose-strip" aria-label="组件库用途">
+            <div class="purpose"><span class="purpose__mark">1</span>产品确认交互方案</div>
+            <div class="purpose"><span class="purpose__mark">2</span>设计查看高保真效果</div>
+            <div class="purpose"><span class="purpose__mark">3</span>前端参考组件行为</div>
+          </div>
+        </header>
 
-        <section class="docs-section">
-          <h2 class="docs-heading">交互 Demo</h2>
-          <div class="demo-panel">
-            <div class="preview-toolbar" aria-label="预览模式">
-              <p class="preview-toolbar__label">预览终端</p>
-              <div class="mode-switch">
-                <button class="mode-switch__button" type="button" data-preview-mode="mobile" aria-pressed="true">移动端</button>
-                <button class="mode-switch__button" type="button" data-preview-mode="desktop" aria-pressed="false">PC端</button>
-              </div>
-            </div>
+        <section class="component" id="company-selector">
+          <h2 class="component-name">选择输入组合框 Combobox</h2>
 
-            <form id="comboboxDemoForm">
-              <label class="cb-label" for="companyCombobox">公司名称</label>
-
-              <div class="cb" id="companyCb" data-state="empty" data-has-value="false">
-                <div class="cb__field">
-                  <input
-                    id="companyCombobox"
-                    class="cb__input"
-                    type="text"
-                    placeholder="请输入或选择"
-                    autocomplete="off"
-                    role="combobox"
-                    aria-expanded="false"
-                    aria-controls="companyComboboxSheet"
-                    aria-autocomplete="list"
-                  />
-                  <span class="cb__icon" aria-hidden="true">⌄</span>
-                  <button class="cb__clear" type="button" aria-label="清空输入">×</button>
+          <div class="demo-panel" aria-label="选择输入组合框 Demo">
+            <div class="demo-toolbar">
+              <div class="toolbar-group">
+                <p class="toolbar-label">终端</p>
+                <div class="segmented" aria-label="切换预览终端">
+                  <button class="segmented__button" type="button" data-mode="mobile" aria-pressed="true">移动端</button>
+                  <button class="segmented__button" type="button" data-mode="desktop" aria-pressed="false">PC端</button>
                 </div>
               </div>
 
-              <p class="cb__hint">支持自由输入；候选项仅用于快速填充，不强制选择。</p>
-              <button class="cb-submit" type="submit">提交</button>
-              <p class="cb-result" id="comboboxResult" aria-live="polite"></p>
-            </form>
+              <div class="scenario-row" aria-label="切换 Demo 状态">
+                <button class="scenario-button" type="button" data-scenario="default" aria-pressed="true">默认状态</button>
+                <button class="scenario-button" type="button" data-scenario="typing" aria-pressed="false">核心操作</button>
+                <button class="scenario-button" type="button" data-scenario="done" aria-pressed="false">完成状态</button>
+                <button class="scenario-button" type="button" data-scenario="error" aria-pressed="false">异常状态</button>
+              </div>
+            </div>
+
+            <div class="demo-stage">
+              <div class="preview-zone">
+                <div class="device" id="device" data-mode="mobile">
+                  <div class="device-frame">
+                    <div class="screen" id="screen">
+                      <header class="app-top">
+                        <p class="app-title">表单字段示例</p>
+                        <span class="app-step">Combobox</span>
+                      </header>
+
+                      <div class="app-body">
+                        <div class="form-card">
+                          <div class="form-row">
+                            <label class="field-label" for="companyInput">公司名称</label>
+                            <div class="combo" id="companyCombo" data-open="false" data-has-value="false" data-invalid="false">
+                              <div class="combo__field">
+                                <input
+                                  class="combo__input"
+                                  id="companyInput"
+                                  type="text"
+                                  placeholder="请输入或选择"
+                                  autocomplete="off"
+                                  role="combobox"
+                                  aria-expanded="false"
+                                  aria-controls="companySheet"
+                                />
+                                <button class="combo__clear" type="button" id="clearCompany" aria-label="清空输入">×</button>
+                                <button class="combo__toggle" type="button" id="toggleCompany" aria-label="展开候选项">⌄</button>
+                              </div>
+                              <p class="field-message" id="fieldMessage">点击输入框后展示候选项；也可直接输入。</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <section class="sheet" id="companySheet" aria-label="公司候选项">
+                        <header class="sheet__header">
+                          <h3 class="sheet__title">选择公司名称</h3>
+                          <button class="sheet__close" type="button" id="closeSheet">关闭</button>
+                        </header>
+                        <div class="option-list" id="optionList"></div>
+                      </section>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <aside class="rules-panel" aria-label="交互说明">
+                <div class="status-card">
+                  <p class="status-title">Demo状态</p>
+                  <div class="timeline">
+                    <div class="timeline-item" data-step="default">
+                      <span class="timeline-dot">1</span>
+                      <span class="timeline-text"><strong>默认状态</strong>输入为空，只露出主输入区。</span>
+                    </div>
+                    <div class="timeline-item" data-step="typing">
+                      <span class="timeline-dot">2</span>
+                      <span class="timeline-text"><strong>核心操作过程</strong>聚焦、输入、筛选、选择候选项。</span>
+                    </div>
+                    <div class="timeline-item" data-step="done">
+                      <span class="timeline-dot">3</span>
+                      <span class="timeline-text"><strong>完成状态</strong>点击候选项或使用当前输入后，输入框回填并关闭候选层。</span>
+                    </div>
+                    <div class="timeline-item" data-step="error">
+                      <span class="timeline-dot">4</span>
+                      <span class="timeline-text"><strong>异常状态</strong>无匹配结果时，展示“使用当前输入”。</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rule-card">
+                  <p class="rule-title">交互说明</p>
+                  <ul class="rule-list">
+                    <li><strong>操作流程：</strong>点击输入框 → 展示候选项 → 输入关键词 → 候选项实时过滤 → 点击候选项回填并关闭。</li>
+                    <li><strong>状态变化：</strong>默认态只展示输入框；聚焦后出现候选层；有内容后出现清空按钮；外部点击会关闭候选层并保留输入。</li>
+                    <li><strong>异常处理：</strong>无匹配结果时展示“使用当前输入”，点击后回填输入框并关闭候选层。</li>
+                  </ul>
+                </div>
+              </aside>
+            </div>
           </div>
         </section>
 
-        <section class="docs-section">
-          <h2 class="docs-heading">组件状态</h2>
-          <div class="state-grid">
-            <article class="state-item">
-              <p class="state-name">Empty</p>
-              <p class="state-desc">默认态，输入为空，不展示候选面板。</p>
-            </article>
-            <article class="state-item">
-              <p class="state-name">Focused / SuggestionsVisible</p>
-              <p class="state-desc">输入框聚焦后弹出键盘，并展示 bottom sheet 候选列表。</p>
-            </article>
-            <article class="state-item">
-              <p class="state-name">Typing / Filtering</p>
-              <p class="state-desc">用户输入时实时过滤历史、常用和推荐候选项。</p>
-            </article>
-            <article class="state-item">
-              <p class="state-name">NoMatch</p>
-              <p class="state-desc">无匹配结果时展示“使用当前输入”，允许自定义提交。</p>
-            </article>
-            <article class="state-item">
-              <p class="state-name">Selected / CustomValue</p>
-              <p class="state-desc">点击候选项或直接提交当前输入，两者最终都写入同一个 value。</p>
-            </article>
+        <section class="component" id="transfer-progress">
+          <h2 class="component-name">上传 / 下载任务进度 Transfer Progress</h2>
+
+          <div class="demo-panel" aria-label="上传下载任务进度 Demo">
+            <div class="demo-toolbar">
+              <div class="toolbar-group">
+                <p class="toolbar-label">终端</p>
+                <div class="segmented" aria-label="切换任务进度预览终端">
+                  <button class="segmented__button" type="button" data-transfer-mode="mobile" aria-pressed="false">移动端</button>
+                  <button class="segmented__button" type="button" data-transfer-mode="desktop" aria-pressed="true">PC端</button>
+                </div>
+              </div>
+
+              <div class="scenario-row" aria-label="切换任务进度 Demo 场景">
+                <button class="scenario-button" type="button" data-transfer-scenario="upload" aria-pressed="true">上传</button>
+                <button class="scenario-button" type="button" data-transfer-scenario="sequence" aria-pressed="false">批量上传</button>
+                <button class="scenario-button" type="button" data-transfer-scenario="large-batch" aria-pressed="false">24 份文件</button>
+                <button class="scenario-button" type="button" data-transfer-scenario="batch-failure" aria-pressed="false">部分失败</button>
+                <button class="scenario-button" type="button" data-transfer-scenario="download" aria-pressed="false">下载</button>
+                <button class="scenario-button" type="button" data-transfer-scenario="multi" aria-pressed="false">多任务</button>
+                <button class="scenario-button" type="button" data-transfer-scenario="processing" aria-pressed="false">处理中</button>
+                <button class="scenario-button" type="button" data-transfer-scenario="failure" aria-pressed="false">中途失败</button>
+                <button class="scenario-button" type="button" data-transfer-scenario="blocking" aria-pressed="false">阻塞任务</button>
+              </div>
+            </div>
+
+            <div class="demo-stage">
+              <div class="preview-zone">
+                <div class="device" id="transferDevice" data-mode="desktop">
+                  <div class="device-frame">
+                    <div class="screen">
+                      <div class="transfer-surface">
+                        <header class="app-top">
+                          <p class="app-title">workspace / transfers</p>
+                          <span class="app-step">TASK RUNNER</span>
+                        </header>
+
+                        <div class="app-body">
+                          <div class="transfer-intro">
+                            <p class="transfer-intro__title">文件传输</p>
+                            <p class="transfer-intro__text">选择任务开始演示。成功文件向上翻出，失败文件原位重试。收起后任务继续。</p>
+                            <button class="transfer-action" id="reopenUpload" type="button" hidden>查看传输任务</button>
+                            <div class="transfer-actions">
+                              <button class="transfer-action transfer-action--primary" type="button" data-start-transfer="sequence">批量上传文件</button>
+                              <button class="transfer-action" type="button" data-start-transfer="download">下载文件</button>
+                              <button class="transfer-action" type="button" data-start-transfer="multi">启动多任务</button>
+                              <button class="transfer-action" type="button" data-start-transfer="processing">打包并下载</button>
+                              <button class="transfer-action" type="button" data-start-transfer="failure">模拟失败</button>
+                              <button class="transfer-action" type="button" data-start-transfer="blocking">阻塞任务</button>
+                            </div>
+                          </div>
+                          <div class="upload-preview" id="uploadPreview" data-state="uploading">
+                            <div class="upload-copy" role="dialog" aria-labelledby="uploadTitle" tabindex="-1">
+                              <div class="upload-header"><span id="uploadTitle">正在上传</span><span id="transferNumericProgress" class="transfer-numeric-progress" aria-hidden="true">0% · 0.0 MB/s</span><button class="upload-close" id="uploadClose" type="button" aria-label="收起传输进度" title="收起后继续上传">×</button></div>
+                              <div class="upload-track" id="uploadTrack" role="progressbar" aria-label="文件传输总进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+                              <div class="upload-name" id="uploadFilename" aria-label="传输中的文件" tabindex="0" data-expanded="false"></div>
+                              <div class="upload-footer"><p class="upload-caption" id="uploadCaption" role="status" aria-atomic="true"></p><div class="upload-list-actions"><button type="button" id="uploadShowAll" aria-expanded="false" aria-controls="uploadFilename" hidden>查看全部</button><button type="button" id="uploadRetryAll" hidden>重试失败项</button><button type="button" id="uploadContinue" hidden>确认</button></div></div>
+                            </div>
+                          </div>
+                          <div class="inline-demo" id="inlineTransfer" aria-live="polite"></div>
+                        </div>
+
+                        <button class="task-entry" type="button" id="taskEntry" aria-expanded="false" aria-controls="taskPanel">
+                          <span class="task-entry__count" id="taskEntryCount">0/0</span>
+                          <span class="task-entry__body">
+                            <span class="task-entry__title" id="taskEntryTitle">任务进行中</span>
+                            <span class="task-entry__text" id="taskEntryText">点击查看任务详情</span>
+                          </span>
+                        </button>
+
+                        <section class="task-panel" id="taskPanel" aria-label="文件任务面板">
+                          <span class="task-panel__handle" aria-hidden="true"></span>
+                          <header class="task-panel__header">
+                            <div>
+                              <h3 class="task-panel__title" id="taskPanelTitle">文件任务</h3>
+                              <p class="task-panel__subtitle" id="taskPanelSubtitle">收起后任务继续执行</p>
+                            </div>
+                            <button class="task-panel__collapse" type="button" id="taskPanelCollapse">收起</button>
+                          </header>
+                          <div class="task-panel__body" id="taskPanelBody" aria-live="polite"></div>
+                        </section>
+
+                        <div class="blocking-layer" id="blockingLayer" role="dialog" aria-modal="true" aria-labelledby="blockingTitle">
+                          <div class="blocking-dialog">
+                            <h3 class="blocking-dialog__title" id="blockingTitle">正在打包中</h3>
+                            <p class="blocking-dialog__text" id="blockingText">完成前暂时不能继续操作，请保持当前页面打开。</p>
+                            <div id="blockingProgress" aria-live="polite"></div>
+                            <div class="blocking-dialog__actions" id="blockingActions"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <aside class="rules-panel" aria-label="上传下载任务进度交互说明">
+                <div class="status-card">
+                  <p class="status-title">三种呈现方式</p>
+                  <div class="timeline">
+                    <div class="timeline-item is-active"><span class="timeline-dot">1</span><span class="timeline-text"><strong>Inline Progress</strong>单文件或文件列表内，直接展示完整进度信息。</span></div>
+                    <div class="timeline-item"><span class="timeline-dot">2</span><span class="timeline-text"><strong>Task Panel</strong>多文件长任务；PC 右下角面板，移动端复用 Bottom Sheet 形态。</span></div>
+                    <div class="timeline-item"><span class="timeline-dot">3</span><span class="timeline-text"><strong>Blocking Progress Dialog</strong>只在未完成前确实不能继续时使用。</span></div>
+                  </div>
+                </div>
+
+                <div class="rule-card">
+                  <p class="rule-title">统一规则</p>
+                  <ul class="rule-list">
+                    <li><strong>精简信息：</strong>仅展示状态、细进度条、当前文件和完成数量；更多文件按需展开。</li>
+                    <li><strong>未知进度：</strong>只显示“正在打包中”等明确状态，不展示虚假进度条。</li>
+                    <li><strong>成功动效：</strong>成功确认 → 勾选短暂停留 → 文件名向上翻出 → 其余文件平滑补位；失败不翻出，减少动态效果时直接更新状态。</li>
+                    <li><strong>结果处理：</strong>完成后保留结果；失败给出原因和重试；收起面板不会取消任务。</li>
+                    <li><strong>使用边界：</strong>上传和下载使用紧凑蒙版浮层，多任务使用可收起面板；收起后继续执行。</li>
+                  </ul>
+                </div>
+              </aside>
+            </div>
           </div>
         </section>
 
-        <section class="docs-section">
-          <h2 class="docs-heading">建议 API</h2>
-          <table class="api-table">
-            <thead>
-              <tr>
-                <th>属性</th>
-                <th>类型</th>
-                <th>说明</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>value</code></td>
-                <td>string</td>
-                <td>输入框当前值，也是最终提交值。</td>
-              </tr>
-              <tr>
-                <td><code>options</code></td>
-                <td>OptionGroup[]</td>
-                <td>候选数据，可按历史、常用、推荐分组。</td>
-              </tr>
-              <tr>
-                <td><code>allowCustomValue</code></td>
-                <td>boolean</td>
-                <td>是否允许无匹配时使用当前输入，默认建议为 true。</td>
-              </tr>
-              <tr>
-                <td><code>onChange</code></td>
-                <td>function</td>
-                <td>输入变化时触发。</td>
-              </tr>
-              <tr>
-                <td><code>onSelect</code></td>
-                <td>function</td>
-                <td>点击候选项时触发。</td>
-              </tr>
-              <tr>
-                <td><code>onSubmit</code></td>
-                <td>function</td>
-                <td>提交时返回 value 与来源：option 或 custom。</td>
-              </tr>
-            </tbody>
-          </table>
+        <section class="component" id="hierarchy-table">
+          <h2 class="component-name">多层级表格 Hierarchical Table</h2>
+          <div class="demo-panel" aria-label="多层级表格 Demo">
+            <div class="demo-toolbar">
+              <div class="toolbar-group"><p class="toolbar-label">项目 / 文件夹 / 文件</p></div>
+              <div class="scenario-row"><button class="transfer-button" type="button" id="expandTree">全部展开</button><button class="transfer-button" type="button" id="collapseTree">全部收起</button></div>
+            </div>
+            <div class="tree-wrap" tabindex="0" role="region" aria-label="项目文件表格，可横向滚动">
+              <table class="tree-table"><caption>项目文件 · 三级结构</caption><thead><tr><th scope="col">名称</th><th scope="col">类型</th><th scope="col">负责人</th><th scope="col">状态</th></tr></thead><tbody id="treeBody"></tbody></table>
+            </div>
+            <p class="tree-help">点击箭头展开或收起子项；收起父级会隐藏其全部后代，再次展开保留子级状态。支持 Tab 聚焦与 Enter / 空格操作，窄屏可横向滚动。</p>
+          </div>
+        </section>
+
+        <section class="generation-rules" id="creation-rules">
+          <h2 class="section-title">新增组件生成规则</h2>
+          <div class="generation-grid">
+            <article class="generation-step">
+              <h3>先查重</h3>
+              <p>当输入“新增XXX组件”时，先检查组件库是否已有相同或类似组件；如果存在，只提示已有组件并给出类似组件名称。</p>
+            </article>
+            <article class="generation-step">
+              <h3>再创建</h3>
+              <p>确认不存在后再创建组件，并包含组件名称、可操作高保真 Demo、主要状态、关键交互和交互说明。</p>
+            </article>
+            <article class="generation-step">
+              <h3>不猜规则</h3>
+              <p>如果业务规则无法确定，先提出需要确认的问题；不要为了完整而增加没有实际价值的内容。</p>
+            </article>
+          </div>
         </section>
       </div>
     </div>
   </main>
 
-  <div class="cb-overlay" id="companyComboboxOverlay"></div>
-
-  <section class="cb-sheet" id="companyComboboxSheet" role="listbox" aria-label="候选项">
-    <header class="cb-sheet__header">
-      <h2 class="cb-sheet__title">选择或继续输入</h2>
-      <button class="cb-sheet__close" type="button" id="companyComboboxClose">关闭</button>
-    </header>
-    <div class="cb-list" id="companyComboboxList"></div>
-  </section>
-
   <script>
-    const componentRegistry = [
+    const companies = [
       {
-        id: "combobox",
-        name: "Combobox 组合输入框",
-        ready: true
+        group: "历史使用",
+        tag: "最近",
+        items: [
+          { name: "北京星河科技有限公司" },
+          { name: "上海云图信息技术有限公司" }
+        ]
       },
       {
-        id: "input",
-        name: "Input 输入框",
-        ready: false
+        group: "常用公司",
+        tag: "常用",
+        items: [
+          { name: "阿里巴巴集团" },
+          { name: "腾讯科技" },
+          { name: "字节跳动" },
+          { name: "美团" }
+        ]
       },
       {
-        id: "select",
-        name: "Select 选择器",
-        ready: false
-      },
-      {
-        id: "textarea",
-        name: "Textarea 文本域",
-        ready: false
-      },
-      {
-        id: "date-picker",
-        name: "DatePicker 日期选择",
-        ready: false
+        group: "推荐匹配",
+        tag: "推荐",
+        items: [
+          { name: "百度在线网络技术有限公司" },
+          { name: "京东集团" },
+          { name: "小米科技有限责任公司" }
+        ]
       }
     ];
 
-    const optionGroups = [
-      {
-        title: "历史记录",
-        items: ["北京星河科技有限公司", "上海云图信息技术有限公司"]
-      },
-      {
-        title: "常用选项",
-        items: ["阿里巴巴集团", "腾讯科技", "字节跳动", "美团"]
-      },
-      {
-        title: "推荐选项",
-        items: ["百度在线网络技术有限公司", "京东集团", "小米科技有限责任公司"]
-      }
-    ];
+    const device = document.querySelector("#device");
+    const screen = document.querySelector("#screen");
+    const combo = document.querySelector("#companyCombo");
+    const input = document.querySelector("#companyInput");
+    const clearButton = document.querySelector("#clearCompany");
+    const toggleButton = document.querySelector("#toggleCompany");
+    const sheet = document.querySelector("#companySheet");
+    const closeSheetButton = document.querySelector("#closeSheet");
+    const optionList = document.querySelector("#optionList");
+    const fieldMessage = document.querySelector("#fieldMessage");
+    const modeButtons = document.querySelectorAll("[data-mode]");
+    const scenarioButtons = document.querySelectorAll("[data-scenario]");
+    const timelineItems = document.querySelectorAll("[data-step]");
 
-    const cb = document.querySelector("#companyCb");
-    const componentMenu = document.querySelector("#componentMenu");
-    const input = document.querySelector("#companyCombobox");
-    const clearBtn = document.querySelector(".cb__clear");
-    const overlay = document.querySelector("#companyComboboxOverlay");
-    const sheet = document.querySelector("#companyComboboxSheet");
-    const closeBtn = document.querySelector("#companyComboboxClose");
-    const list = document.querySelector("#companyComboboxList");
-    const form = document.querySelector("#comboboxDemoForm");
-    const result = document.querySelector("#comboboxResult");
-    const modeButtons = document.querySelectorAll("[data-preview-mode]");
-
-    let selectedValue = "";
+    let selectedCompany = null;
     let previewMode = "mobile";
 
-    function renderComponentMenu() {
-      componentMenu.innerHTML = "";
+    const transferDevice = document.querySelector("#transferDevice");
+    const inlineTransfer = document.querySelector("#inlineTransfer");
+    const taskEntry = document.querySelector("#taskEntry");
+    const taskEntryCount = document.querySelector("#taskEntryCount");
+    const taskEntryTitle = document.querySelector("#taskEntryTitle");
+    const taskEntryText = document.querySelector("#taskEntryText");
+    const taskPanel = document.querySelector("#taskPanel");
+    const taskPanelTitle = document.querySelector("#taskPanelTitle");
+    const taskPanelSubtitle = document.querySelector("#taskPanelSubtitle");
+    const taskPanelBody = document.querySelector("#taskPanelBody");
+    const taskPanelCollapse = document.querySelector("#taskPanelCollapse");
+    const blockingLayer = document.querySelector("#blockingLayer");
+    const blockingTitle = document.querySelector("#blockingTitle");
+    const blockingText = document.querySelector("#blockingText");
+    const blockingProgress = document.querySelector("#blockingProgress");
+    const blockingActions = document.querySelector("#blockingActions");
+    const transferModeButtons = document.querySelectorAll("[data-transfer-mode]");
+    const transferScenarioButtons = document.querySelectorAll("[data-transfer-scenario]");
+    const transferStartButtons = document.querySelectorAll("[data-start-transfer]");
 
-      componentRegistry.forEach(component => {
-        const item = document.createElement("li");
-        item.className = "library-menu__item";
+    let transferTasks = [];
+    let transferPresentation = "inline";
+    let taskPanelExpanded = false;
+    let taskSequence = 0;
 
-        const link = document.createElement("a");
-        link.className = "library-menu__link";
-        link.href = `#${component.id}`;
-        link.textContent = component.name;
-
-        if (component.id === "combobox") {
-          link.setAttribute("aria-current", "page");
-        }
-
-        if (!component.ready) {
-          link.setAttribute("aria-disabled", "true");
-          link.addEventListener("click", event => event.preventDefault());
-        }
-
-        item.appendChild(link);
-        componentMenu.appendChild(item);
+    function setMode(mode) {
+      previewMode = mode;
+      device.dataset.mode = mode;
+      modeButtons.forEach(button => {
+        button.setAttribute("aria-pressed", String(button.dataset.mode === mode));
       });
+      if (isSheetOpen()) {
+        positionDesktopSheet();
+      }
     }
 
-    function setState(state) {
-      cb.dataset.state = state;
+    function setScenario(scenario) {
+      scenarioButtons.forEach(button => {
+        button.setAttribute("aria-pressed", String(button.dataset.scenario === scenario));
+      });
+
+      timelineItems.forEach(item => {
+        item.classList.toggle("is-active", item.dataset.step === scenario && scenario !== "done" && scenario !== "error");
+        item.classList.toggle("is-success", item.dataset.step === scenario && scenario === "done");
+        item.classList.toggle("is-error", item.dataset.step === scenario && scenario === "error");
+      });
+
+      if (scenario === "default") {
+        input.value = "";
+        selectedCompany = null;
+        syncValueState();
+        closeOptions();
+        resetComboMessage();
+      }
+
+      if (scenario === "typing") {
+        input.value = "北京";
+        selectedCompany = null;
+        syncValueState();
+        fieldMessage.textContent = "候选项已根据关键词实时过滤。";
+        openOptions();
+      }
+
+      if (scenario === "done") {
+        const company = companies[0].items[0];
+        chooseCompany(company, false);
+        closeOptions();
+      }
+
+      if (scenario === "error") {
+        input.value = "不存在的公司";
+        selectedCompany = null;
+        syncValueState();
+        openOptions();
+      }
+    }
+
+    function resetComboMessage() {
+      combo.dataset.invalid = "false";
+      fieldMessage.className = "field-message";
+      fieldMessage.textContent = "点击输入框后展示候选项；也可直接输入。";
     }
 
     function syncValueState() {
-      cb.dataset.hasValue = String(input.value.trim().length > 0);
+      combo.dataset.hasValue = String(input.value.trim().length > 0);
     }
 
-    function openSheet() {
-      sheet.dataset.mode = previewMode;
-      overlay.dataset.mode = previewMode;
-      if (previewMode === "desktop") {
-        positionDesktopSheet();
-      }
+    function isSheetOpen() {
+      return sheet.classList.contains("is-open");
+    }
 
-      overlay.classList.add("is-open");
-      sheet.classList.add("is-open");
+    function openOptions() {
+      combo.dataset.open = "true";
       input.setAttribute("aria-expanded", "true");
+      sheet.classList.add("is-open");
       renderOptions(input.value);
-      setState(input.value.trim() ? "filtering" : "suggestions");
+      positionDesktopSheet();
     }
 
-    function closeSheet() {
-      overlay.classList.remove("is-open");
-      sheet.classList.remove("is-open");
+    function closeOptions() {
+      combo.dataset.open = "false";
       input.setAttribute("aria-expanded", "false");
-      setState(input.value.trim() ? "closed-with-value" : "empty");
+      sheet.classList.remove("is-open");
     }
 
     function positionDesktopSheet() {
-      const rect = input.getBoundingClientRect();
-      sheet.style.setProperty("--cb-sheet-left", `${rect.left}px`);
-      sheet.style.setProperty("--cb-sheet-top", `${rect.bottom + 6}px`);
-      sheet.style.setProperty("--cb-sheet-width", `${rect.width}px`);
+      if (previewMode !== "desktop") return;
+      const inputRect = input.getBoundingClientRect();
+      const screenRect = screen.getBoundingClientRect();
+      sheet.style.setProperty("--popover-left", `${inputRect.left - screenRect.left}px`);
+      sheet.style.setProperty("--popover-top", `${inputRect.bottom - screenRect.top + 6}px`);
+      sheet.style.setProperty("--popover-width", `${inputRect.width}px`);
     }
 
-    function setPreviewMode(mode) {
-      previewMode = mode;
-      sheet.dataset.mode = mode;
+    function filterCompanies(keyword) {
+      const value = keyword.trim().toLowerCase();
+      if (!value) return companies;
 
-      modeButtons.forEach(button => {
-        button.setAttribute("aria-pressed", String(button.dataset.previewMode === mode));
-      });
-
-      if (sheet.classList.contains("is-open")) {
-        openSheet();
-      }
-    }
-
-    function filterGroups(keyword) {
-      const normalized = keyword.trim().toLowerCase();
-      if (!normalized) return optionGroups;
-
-      return optionGroups
+      return companies
         .map(group => ({
-          title: group.title,
-          items: group.items.filter(item => item.toLowerCase().includes(normalized))
+          ...group,
+          items: group.items.filter(company => company.name.toLowerCase().includes(value))
         }))
         .filter(group => group.items.length > 0);
     }
 
     function renderOptions(keyword) {
-      const filteredGroups = filterGroups(keyword);
-      list.innerHTML = "";
+      const groups = filterCompanies(keyword);
+      optionList.innerHTML = "";
 
-      if (filteredGroups.length === 0 && keyword.trim()) {
-        setState("no-match");
+      if (groups.length === 0 && keyword.trim()) {
         const empty = document.createElement("div");
-        empty.className = "cb-empty";
+        empty.className = "empty-result";
         empty.innerHTML = `
-          <p class="cb-empty__text">无匹配结果</p>
-          <button class="cb-use-input" type="button">
-            使用当前输入：${escapeHtml(keyword.trim())}
-          </button>
+          <p class="empty-result__title">没有找到匹配公司</p>
+          <p class="empty-result__text">可使用当前输入作为最终值。</p>
+          <button class="use-current" type="button">使用当前输入</button>
         `;
-        empty.querySelector(".cb-use-input").addEventListener("click", () => {
-          selectedValue = "";
-          closeSheet();
-          input.focus();
+        empty.querySelector(".use-current").addEventListener("click", () => {
+          selectedCompany = null;
+          combo.dataset.invalid = "false";
+          fieldMessage.className = "field-message";
+          fieldMessage.textContent = "已使用当前输入。";
+          closeOptions();
         });
-        list.appendChild(empty);
+        optionList.appendChild(empty);
         return;
       }
 
-      filteredGroups.forEach(group => {
+      groups.forEach(group => {
         const title = document.createElement("p");
-        title.className = "cb-list__group-title";
-        title.textContent = group.title;
-        list.appendChild(title);
+        title.className = "option-group";
+        title.textContent = group.group;
+        optionList.appendChild(title);
 
-        group.items.forEach(item => {
+        group.items.forEach(company => {
           const option = document.createElement("button");
-          option.className = "cb-option";
+          option.className = "option";
           option.type = "button";
-          option.role = "option";
-          option.textContent = item;
-
-          if (item === input.value) {
-            option.setAttribute("aria-selected", "true");
-          }
-
-          option.addEventListener("click", () => {
-            input.value = item;
-            selectedValue = item;
-            syncValueState();
-            setState("selected");
-            closeSheet();
-          });
-
-          list.appendChild(option);
+          option.setAttribute("role", "option");
+          option.setAttribute("aria-selected", String(selectedCompany?.name === company.name));
+          option.innerHTML = `<span>${escapeHtml(company.name)}</span><span class="option__tag">${escapeHtml(group.tag)}</span>`;
+          option.addEventListener("click", () => chooseCompany(company, true));
+          optionList.appendChild(option);
         });
       });
+    }
+
+    function chooseCompany(company, shouldFocus) {
+      selectedCompany = company;
+      input.value = company.name;
+      syncValueState();
+      combo.dataset.invalid = "false";
+      fieldMessage.className = "field-message is-success";
+      fieldMessage.textContent = "已选择候选项。";
+      closeOptions();
     }
 
     function escapeHtml(value) {
@@ -882,68 +1971,530 @@
         .replace(/'/g, "&#039;");
     }
 
-    input.addEventListener("focus", openSheet);
+    modeButtons.forEach(button => {
+      button.addEventListener("click", () => setMode(button.dataset.mode));
+    });
+
+    scenarioButtons.forEach(button => {
+      button.addEventListener("click", () => setScenario(button.dataset.scenario));
+    });
+
+    input.addEventListener("focus", () => {
+      resetComboMessage();
+      openOptions();
+      setScenarioButtonOnly("typing");
+    });
+
     input.addEventListener("input", () => {
-      selectedValue = "";
+      selectedCompany = null;
+      combo.dataset.invalid = "false";
+      fieldMessage.className = "field-message";
+      fieldMessage.textContent = input.value.trim() ? "正在根据输入内容收窄候选项。" : "点击输入框后展示候选项；也可直接输入。";
       syncValueState();
-      setState("typing");
-      openSheet();
+      openOptions();
+      setScenarioButtonOnly("typing");
     });
 
-    clearBtn.addEventListener("click", () => {
+    clearButton.addEventListener("click", () => {
       input.value = "";
-      selectedValue = "";
+      selectedCompany = null;
       syncValueState();
-      setState("empty");
-      input.focus();
-      openSheet();
+      resetComboMessage();
+      closeOptions();
     });
 
-    overlay.addEventListener("click", closeSheet);
-    closeBtn.addEventListener("click", closeSheet);
+    toggleButton.addEventListener("click", () => {
+      if (isSheetOpen()) {
+        closeOptions();
+      } else {
+        input.focus();
+        openOptions();
+      }
+    });
+
+    closeSheetButton.addEventListener("click", closeOptions);
 
     document.addEventListener("pointerdown", event => {
-      if (previewMode !== "desktop" || !sheet.classList.contains("is-open")) {
-        return;
+      if (!isSheetOpen()) return;
+      const clickedCombo = event.target.closest("#companyCombo");
+      const clickedSheet = event.target.closest("#companySheet");
+      const clickedToolbar = event.target.closest(".demo-toolbar");
+      if (!clickedCombo && !clickedSheet && !clickedToolbar) {
+        closeOptions();
       }
-
-      const clickedCombobox = event.target.closest("#companyCb");
-      const clickedSheet = event.target.closest("#companyComboboxSheet");
-      const clickedModeSwitch = event.target.closest(".mode-switch");
-
-      if (!clickedCombobox && !clickedSheet && !clickedModeSwitch) {
-        closeSheet();
-      }
-    });
-
-    modeButtons.forEach(button => {
-      button.addEventListener("click", () => {
-        setPreviewMode(button.dataset.previewMode);
-      });
     });
 
     window.addEventListener("resize", () => {
-      if (previewMode === "desktop" && sheet.classList.contains("is-open")) {
+      if (isSheetOpen()) {
         positionDesktopSheet();
       }
     });
 
-    form.addEventListener("submit", event => {
-      event.preventDefault();
-      const value = input.value.trim();
+    function setScenarioButtonOnly(scenario) {
+      scenarioButtons.forEach(button => {
+        button.setAttribute("aria-pressed", String(button.dataset.scenario === scenario));
+      });
+      timelineItems.forEach(item => {
+        item.classList.toggle("is-active", item.dataset.step === scenario && scenario !== "done" && scenario !== "error");
+        item.classList.toggle("is-success", item.dataset.step === scenario && scenario === "done");
+        item.classList.toggle("is-error", item.dataset.step === scenario && scenario === "error");
+      });
+    }
 
-      if (!value) {
-        result.textContent = "请先输入内容";
-        input.focus();
-        return;
+    function setTransferMode(mode) {
+      transferDevice.dataset.mode = mode;
+      transferModeButtons.forEach(button => {
+        button.setAttribute("aria-pressed", String(button.dataset.transferMode === mode));
+      });
+    }
+
+    function createTransferTask({ name, total, speed, status, failAt = null, determinate = true }) {
+      return {
+        id: ++taskSequence,
+        name,
+        total,
+        speed,
+        status,
+        targetStatus: status,
+        transferred: 0,
+        failAt,
+        determinate,
+        processingTicks: 0
+      };
+    }
+
+    function startTransferScenario(scenario) {
+      transferScenarioButtons.forEach(button => {
+        button.setAttribute("aria-pressed", String(button.dataset.transferScenario === scenario));
+      });
+
+      uploadDismissed = false;
+      taskPanelExpanded = false;
+      transferPresentation = scenario === "multi" ? "panel" : scenario === "blocking" ? "blocking" : "inline";
+      blockingLayer.classList.remove("is-open");
+
+      if (scenario === "upload") {
+        transferTasks = [createTransferTask({ name: "产品说明.pdf", total: 48.6, speed: 8.4, status: "uploading" })];
+      } else if ( ["sequence", "batch-failure"].includes(scenario)) {
+        transferTasks = [
+          createTransferTask({ name: "产品说明.pdf", total: 24, speed: 8, status: "uploading" }),
+          createTransferTask({ name: "会议记录.docx", total: 18, speed: 4, status: "uploading" }),
+          createTransferTask({ name: "设计资源.zip", total: 36, speed: 5, status: "uploading" })
+        ];
+        if (scenario === "batch-failure") transferTasks[1].failAt = 0.45;
+      } else if (scenario === "large-batch") {
+        transferTasks = Array.from({ length: 24 }, (_, index) => createTransferTask({
+          name: `项目资料_${String(index + 1).padStart(2, "0")}.${["pdf", "docx", "zip"][index % 3]}`,
+          total: 20 + index * 3,
+          speed: 5 + (index % 4),
+          status: "uploading",
+          failAt: [6, 18].includes(index) ? 0.45 : null
+        }));
+      } else if (scenario === "download") {
+        transferTasks = [createTransferTask({ name: "数据导出.xlsx", total: 72.4, speed: 11.2, status: "downloading" })];
+      } else if (scenario === "multi") {
+        transferTasks = [
+          createTransferTask({ name: "资料归档.zip", total: 96.8, speed: 13.5, status: "downloading" }),
+          createTransferTask({ name: "会议记录.docx", total: 18.2, speed: 4.6, status: "uploading" }),
+          createTransferTask({ name: "预览文件.pdf", total: 42.5, speed: 7.8, status: "downloading", failAt: 0.55 })
+        ];
+        taskPanelExpanded = true;
+      } else if (scenario === "processing") {
+        transferTasks = [createTransferTask({ name: "数据报告.pdf", total: 38.4, speed: 7.2, status: "generating", determinate: false })];
+      } else if (scenario === "failure") {
+        transferTasks = [createTransferTask({ name: "资料备份.zip", total: 64.2, speed: 10.2, status: "uploading", failAt: 0.42 })];
+      } else if (scenario === "blocking") {
+        transferTasks = [createTransferTask({ name: "必要文件.pdf", total: 30, speed: 6.4, status: "generating", determinate: false })];
+        blockingLayer.classList.add("is-open");
       }
 
-      result.textContent = `已提交：${value}（${selectedValue ? "候选项" : "自由输入"}）`;
-      closeSheet();
+      renderTransfers();
+    }
+
+    function statusText(task) {
+      if (task.status === "queued") return "等待上传";
+      if (task.status === "uploading") return "正在上传";
+      if (task.status === "downloading") return "正在下载";
+      if (task.status === "generating") return "正在打包中";
+      if (task.status === "completed") return "已完成";
+      return "失败";
+    }
+
+    function formatSize(value) {
+      return `${Math.max(0, value).toFixed(1)} MB`;
+    }
+
+    function renderTransferItem(task) {
+      const percentage = task.determinate ? Math.min(100, Math.round(task.transferred / task.total * 100)) : null;
+      const isComplete = task.status === "completed";
+      const isFailed = task.status === "failed";
+      const stateClass = isComplete ? "is-complete" : isFailed ? "is-failed" : "";
+      const percentClass = isComplete ? "is-complete" : isFailed ? "is-failed" : "";
+      const icon = task.targetStatus === "uploading"
+        ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 15v4h14v-4"/></svg>'
+        : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12m0 0l-4.5-4.5M12 16l4.5-4.5M5 19h14"/></svg>';
+
+      return `
+        <article class="transfer-item ${stateClass}">
+          <div class="transfer-item__head">
+            <div class="transfer-file">
+              <span class="transfer-file__icon">${icon}</span>
+              <div>
+                <p class="transfer-item__name">${escapeHtml(task.name)}</p>
+                <p class="transfer-item__status">${statusText(task)}</p>
+              </div>
+            </div>
+            ${percentage === null ? "" : `<span class="transfer-percent ${percentClass}">${isFailed ? "失败" : `${percentage}%`}</span>`}
+          </div>
+          ${task.determinate ? `
+            <div class="transfer-progress" role="progressbar" aria-label="${escapeHtml(task.name)}进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percentage}">
+              <div class="transfer-progress__bar" style="width:${percentage}%"></div>
+            </div>
+            ${isFailed ? `<div class="transfer-item__foot"><span class="transfer-item__meta">连接中断</span><button class="transfer-retry" type="button" data-retry-task="${task.id}">重试</button></div>` : ""}
+          ` : `
+            <div class="processing-status" role="status"><span class="processing-status__pulse"></span>${statusText(task)}，请稍候</div>
+          `}
+        </article>
+      `;
+    }
+
+    let uploadDismissed = false;
+    let uploadPreviewKey = "";
+    let uploadAutoCloseTimer = null;
+    let uploadAutoClosedKey = "";
+    const uploadClose = document.querySelector("#uploadClose");
+    const reopenUpload = document.querySelector("#reopenUpload");
+    function closeUploadPreview() {
+      uploadDismissed = true;
+      syncUploadPreview();
+      reopenUpload.focus();
+    }
+    uploadClose.addEventListener("click", closeUploadPreview);
+    reopenUpload.addEventListener("click", () => {
+      uploadDismissed = false;
+      syncUploadPreview();
+      uploadClose.focus();
+    });
+    document.querySelector("#uploadPreview").addEventListener("keydown", event => {
+      if (event.key === "Escape") { event.preventDefault(); closeUploadPreview(); }
+    });
+    const uploadShowAll = document.querySelector("#uploadShowAll");
+    const uploadRetryAll = document.querySelector("#uploadRetryAll");
+    const uploadContinue = document.querySelector("#uploadContinue");
+    uploadContinue.addEventListener("click", closeUploadPreview);
+    function syncUploadListControls() {
+      const list = document.querySelector("#uploadFilename");
+      const count = list.children.length;
+      const expanded = list.dataset.expanded === "true";
+      uploadShowAll.hidden = count <= 1;
+      uploadShowAll.setAttribute("aria-expanded", String(expanded));
+      uploadShowAll.textContent = expanded ? "收起" : "详情";
+      if (count <= 1 && document.activeElement === uploadShowAll) uploadClose.focus({ preventScroll: true });
+    }
+    uploadShowAll.addEventListener("click", () => {
+      const list = document.querySelector("#uploadFilename");
+      list.getAnimations({ subtree: true }).forEach(animation => { if (animation.playState !== "finished") animation.finish(); });
+      list.dataset.expanded = String(list.dataset.expanded !== "true");
+      list.scrollTop = 0;
+      syncUploadListControls();
+    });
+    uploadRetryAll.addEventListener("click", () => {
+      transferTasks.filter(task => task.status === "failed").forEach(task => {
+        task.status = task.targetStatus;
+        task.failAt = null;
+        task.determinate = true;
+      });
+      renderTransfers();
+      uploadClose.focus({ preventScroll: true });
+    });
+    function syncUploadPreview() {
+      const uploads = transferPresentation === "inline" ? transferTasks.filter(task => task.determinate) : [];
+      const preview = document.querySelector("#uploadPreview");
+      const filenames = document.querySelector("#uploadFilename");
+      preview.classList.toggle("is-visible", uploads.length > 0 && !uploadDismissed);
+      reopenUpload.hidden = !uploads.length || !uploadDismissed;
+      const key = uploads.map(task => task.id).join(",");
+      const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (key !== uploadPreviewKey) {
+        clearTimeout(uploadAutoCloseTimer);
+        uploadAutoCloseTimer = null;
+        uploadAutoClosedKey = "";
+        uploadPreviewKey = key;
+        if (uploads.length && !uploadDismissed) requestAnimationFrame(() => uploadClose.focus({ preventScroll: true }));
+        filenames.getAnimations({ subtree: true }).forEach(animation => animation.cancel());
+        filenames.replaceChildren();
+        filenames.dataset.expanded = "false";
+        filenames.scrollTop = 0;
+        uploads.forEach(task => {
+          const row = document.createElement("div");
+          row.className = "upload-file-row";
+          row.dataset.uploadId = task.id;
+          row.innerHTML = `<div class="upload-file-content"><span class="upload-file-symbol" aria-hidden="true"></span><div class="upload-file-info"><span class="upload-file-title" title="${escapeHtml(task.name)}">${escapeHtml(task.name)}</span><span class="upload-file-meta"></span></div><button type="button" data-retry-task="${task.id}" aria-label="重试${escapeHtml(task.name)}" hidden>重试</button></div>`;
+          filenames.append(row);
+        });
+      }
+      if (!uploads.length) return;
+      const completedTasks = uploads.filter(task => task.status === "completed");
+      const completed = completedTasks.length;
+      const failed = uploads.filter(task => task.status === "failed").length;
+      uploadRetryAll.hidden = failed === 0;
+      uploadRetryAll.textContent = `重试失败项（${failed}）`;
+      const active = uploads.some(task => ["uploading", "downloading"].includes(task.status));
+      uploadContinue.hidden = failed === 0 || !uploads.every(task => ["completed", "failed"].includes(task.status));
+      const direction = uploads.every(task => task.targetStatus === "downloading") ? "下载" : "上传";
+      preview.dataset.state = completed === uploads.length ? "completed" : failed && !active ? (completed ? "partial" : "failed") : "uploading";
+      document.querySelector("#uploadTitle").textContent = completed === uploads.length ? `${direction}完成` : failed && !active ? (completed ? "部分完成" : `${direction}未完成`) : `正在${direction}`;
+      // Byte-weighted transfer progress, independent of the completed file count.
+      const total = uploads.reduce((sum, task) => sum + task.total, 0);
+      const transferred = uploads.reduce((sum, task) => sum + task.transferred, 0);
+      const percent = completed === uploads.length ? 100 : Math.min(99, Math.floor(total > 0 ? transferred / total * 100 : 0));
+      const track = document.querySelector("#uploadTrack");
+      track.setAttribute("aria-valuenow", percent);
+      track.setAttribute("aria-label", `${direction}总字节进度`);
+      const transferRate = uploads.reduce((sum, task) => sum + (["uploading", "downloading"].includes(task.status) ? task.speed : 0), 0);
+      document.querySelector("#transferNumericProgress").textContent = `${percent}% · ${transferRate.toFixed(1)} MB/s`;
+      track.setAttribute("aria-valuetext", `${percent}%，速率 ${transferRate.toFixed(1)} MB/s`);
+      track.firstElementChild.style.transform = `scaleX(${percent / 100})`;
+      uploads.forEach(task => {
+        const row = filenames.querySelector(`[data-upload-id="${task.id}"]`);
+        if (!row || row.dataset.leaving || row.dataset.entering) return;
+        const retry = row.querySelector("button");
+        row.classList.toggle("is-failed", task.status === "failed");
+        retry.hidden = task.status !== "failed";
+        row.querySelector(".upload-file-symbol").textContent = task.status === "failed" ? "!" : task.targetStatus === "uploading" ? "↑" : "↓";
+        row.querySelector(".upload-file-meta").textContent = task.status === "failed" ? "连接中断" : "";
+        if (task.status !== "completed") return;
+        if (filenames.querySelector("[data-leaving], [data-entering]")) return;
+        // Keep the displayed filename stable until it completes. Failed rows stay
+        // available in details and return to the compact slot after active work.
+        if (filenames.dataset.expanded !== "true" && row !== filenames.firstElementChild) {
+          const firstTask = uploads.find(item => String(item.id) === filenames.firstElementChild?.dataset.uploadId);
+          if (firstTask?.status !== "failed") return;
+          const failedRow = filenames.firstElementChild;
+          filenames.append(failedRow);
+          queueMicrotask(() => { if (key === uploadPreviewKey) syncUploadPreview(); });
+          return;
+        }
+        const completionBacklog = completedTasks.filter(item => filenames.querySelector(`[data-upload-id="${item.id}"]`)).length;
+        row.dataset.leaving = "true";
+        row.classList.add("is-success");
+        row.querySelector(".upload-file-symbol").textContent = "✓";
+        row.querySelector(".upload-file-meta").textContent = "";
+        const compact = filenames.dataset.expanded !== "true";
+        const next = compact ? [...filenames.children].find(item => item !== row &&
+          uploads.find(task => String(task.id) === item.dataset.uploadId)?.status === "completed") ||
+          [...filenames.children].find(item => item !== row &&
+          uploads.find(task => String(task.id) === item.dataset.uploadId)?.status !== "failed") ||
+          [...filenames.children].find(item => item !== row) : null;
+        const duration = completionBacklog > 5 ? 440 : 540;
+        const timing = { duration, easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" };
+        let incoming = null;
+        if (next && !reducedMotion) {
+          row.after(next);
+          next.dataset.entering = "true";
+          const nextTask = uploads.find(task => String(task.id) === next.dataset.uploadId);
+          next.classList.toggle("is-success", nextTask.status === "completed");
+          next.querySelector(".upload-file-symbol").textContent = nextTask.status === "completed" ? "✓" : nextTask.status === "failed" ? "!" : nextTask.targetStatus === "uploading" ? "↑" : "↓";
+          incoming = next.firstElementChild.animate([
+            { transform: "translateY(100%)" },
+            { transform: "translateY(100%)", offset: .25 },
+            { transform: "translateY(0)" }
+          ], timing);
+        }
+        const finish = () => {
+          if (key !== uploadPreviewKey) return;
+          const positions = !compact ? new Map([...filenames.children].filter(item => item !== row).map(item => [item, item.getBoundingClientRect().top])) : null;
+          row.remove();
+          if (next) {
+            delete next.dataset.entering;
+            incoming?.cancel();
+          }
+          if (positions && !reducedMotion) positions.forEach((top, item) => {
+            const offset = top - item.getBoundingClientRect().top;
+            if (offset) item.animate([{ transform: `translateY(${offset}px)` }, { transform: "translateY(0)" }], { duration: 200, easing: "ease-out" });
+          });
+          syncUploadListControls();
+          queueMicrotask(() => { if (key === uploadPreviewKey) syncUploadPreview(); });
+        };
+        if (reducedMotion) { finish(); return; }
+        const animation = row.firstElementChild.animate([
+          { transform: "translateY(0)" },
+          { transform: "translateY(0)", offset: .25 },
+          { transform: "translateY(-100%)" }
+        ], timing);
+        // Both pages share a timeline: no empty frame between exit and entry.
+        const sharedStart = document.timeline.currentTime;
+        animation.startTime = sharedStart;
+        if (incoming) incoming.startTime = sharedStart;
+        animation.onfinish = finish;
+      });
+      syncUploadListControls();
+      const caption = document.querySelector("#uploadCaption");
+      const captionText = `${completed} / ${uploads.length} 已完成${failed ? ` · ${failed} 失败` : ""}`;
+      if (caption.textContent !== captionText) caption.textContent = captionText;
+      if (completed === uploads.length && !filenames.children.length && !uploadDismissed && uploadAutoClosedKey !== key && uploadAutoCloseTimer === null) {
+        uploadAutoCloseTimer = setTimeout(() => {
+          uploadAutoCloseTimer = null;
+          if (key !== uploadPreviewKey || uploadDismissed) return;
+          const restoreFocus = preview.contains(document.activeElement);
+          uploadAutoClosedKey = key;
+          uploadDismissed = true;
+          syncUploadPreview();
+          if (restoreFocus) reopenUpload.focus({ preventScroll: true });
+        }, 450);
+      }
+    }
+
+    function renderTransfers() {
+      syncUploadPreview();
+      const completed = transferTasks.filter(task => task.status === "completed").length;
+      const failed = transferTasks.filter(task => task.status === "failed").length;
+      const active = transferTasks.filter(task => !["completed", "failed"].includes(task.status)).length;
+
+      const showInline = transferPresentation === "inline" && transferTasks.some(task => !task.determinate);
+      inlineTransfer.classList.toggle("is-visible", showInline);
+      inlineTransfer.innerHTML = showInline ? transferTasks.map(renderTransferItem).join("") : "";
+
+      const showPanel = transferPresentation === "panel" && transferTasks.length > 0;
+      taskEntry.classList.toggle("is-visible", showPanel && !taskPanelExpanded);
+      taskEntry.setAttribute("aria-expanded", String(taskPanelExpanded));
+      taskPanel.classList.toggle("is-open", showPanel && taskPanelExpanded);
+      taskEntryCount.textContent = `${completed}/${transferTasks.length}`;
+      taskEntryTitle.textContent = failed ? `${failed} 个任务失败` : active ? `${active} 个任务进行中` : "全部任务已完成";
+      taskEntryText.textContent = active ? "收起后任务仍会继续" : "结果已保留，点击查看";
+      taskPanelTitle.textContent = failed ? "部分任务失败" : active ? "文件任务" : "全部任务已完成";
+      taskPanelSubtitle.textContent = active ? `已完成 ${completed}/${transferTasks.length} · 收起后继续执行` : failed ? "失败任务可单独重试" : "完成结果会保留在面板中";
+      taskPanelBody.innerHTML = showPanel ? transferTasks.map(renderTransferItem).join("") : "";
+
+      if (transferPresentation === "blocking") {
+        const task = transferTasks[0];
+        blockingTitle.textContent = statusText(task);
+        blockingText.textContent = task.status === "completed" ? "文件已打包完成，可以继续下一步。" : "完成前暂时不能继续操作，请保持当前页面打开。";
+        blockingProgress.innerHTML = renderTransferItem(task);
+        blockingActions.innerHTML = task.status === "completed"
+          ? '<button class="transfer-button transfer-button--primary" type="button" data-close-blocking>继续</button>'
+          : task.status === "failed"
+            ? `<button class="transfer-button transfer-button--primary" type="button" data-retry-task="${task.id}">重试</button>`
+            : "";
+      }
+    }
+
+    function retryTransfer(id) {
+      const task = transferTasks.find(item => item.id === Number(id));
+      if (!task) return;
+      task.status = task.targetStatus;
+      task.failAt = null;
+      task.determinate = true;
+      renderTransfers();
+    }
+
+    function tickTransfers() {
+      let changed = false;
+      transferTasks.forEach(task => {
+        if (["completed", "failed", "queued"].includes(task.status)) return;
+
+        if (!task.determinate) {
+          task.processingTicks += 1;
+          if (task.processingTicks >= 5) {
+            task.determinate = true;
+            task.status = "downloading";
+            task.targetStatus = "downloading";
+          }
+          changed = true;
+          return;
+        }
+
+        task.transferred = Math.min(task.total, task.transferred + task.speed * 0.4);
+        if (task.failAt && task.transferred / task.total >= task.failAt) {
+          task.status = "failed";
+        } else if (task.transferred >= task.total) {
+          task.status = "completed";
+        }
+        changed = true;
+      });
+      if (!transferTasks.some(task => ["uploading", "failed"].includes(task.status))) {
+        const nextTask = transferTasks.find(task => task.status === "queued");
+        if (nextTask) { nextTask.status = "uploading"; changed = true; }
+      }
+      if (changed) renderTransfers();
+    }
+
+    transferModeButtons.forEach(button => {
+      button.addEventListener("click", () => setTransferMode(button.dataset.transferMode));
     });
 
-    renderComponentMenu();
-    setPreviewMode("mobile");
+    transferScenarioButtons.forEach(button => {
+      button.addEventListener("click", () => startTransferScenario(button.dataset.transferScenario));
+    });
+
+    transferStartButtons.forEach(button => {
+      button.addEventListener("click", () => startTransferScenario(button.dataset.startTransfer));
+    });
+
+    taskEntry.addEventListener("click", () => {
+      taskPanelExpanded = true;
+      renderTransfers();
+    });
+
+    taskPanelCollapse.addEventListener("click", () => {
+      taskPanelExpanded = false;
+      renderTransfers();
+    });
+
+    document.querySelector("#transfer-progress").addEventListener("click", event => {
+      const retryButton = event.target.closest("[data-retry-task]");
+      const closeButton = event.target.closest("[data-close-blocking]");
+      if (retryButton) retryTransfer(retryButton.dataset.retryTask);
+      if (closeButton) blockingLayer.classList.remove("is-open");
+    });
+
+    const treeData = [
+      { id: "project", name: "产品组件库", type: "项目", owner: "林晓", status: "进行中", children: [
+        { id: "design", name: "设计资源", type: "文件夹", owner: "林晓", status: "进行中", children: [
+          { id: "spec", name: "产品说明.pdf", type: "PDF", owner: "林晓", status: "已完成" },
+          { id: "prototype", name: "交互原型.fig", type: "设计文件", owner: "陈晨", status: "进行中" }
+        ] },
+        { id: "docs", name: "项目文档", type: "文件夹", owner: "周宁", status: "已完成", children: [
+          { id: "minutes", name: "会议记录.docx", type: "Word", owner: "周宁", status: "已完成" }
+        ] }
+      ] },
+      { id: "archive", name: "历史归档", type: "项目", owner: "陈晨", status: "已归档", children: [
+        { id: "backup", name: "资料归档.zip", type: "ZIP", owner: "陈晨", status: "已完成" }
+      ] }
+    ];
+    const expandedTree = new Set(["project", "design"]);
+    const treeBody = document.querySelector("#treeBody");
+    function renderTree() {
+      function rows(nodes, depth = 0) {
+        return nodes.map(node => {
+          const expanded = expandedTree.has(node.id);
+          return `<tr><th scope="row"><span class="tree-name" style="--depth:${depth}">${node.children ? `<button class="tree-toggle" type="button" data-tree-id="${node.id}" aria-expanded="${expanded}" aria-label="${expanded ? "收起" : "展开"}${escapeHtml(node.name)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>` : '<span class="tree-spacer" aria-hidden="true"></span>'}${escapeHtml(node.name)}</span></th><td>${node.type}</td><td>${node.owner}</td><td>${node.status}</td></tr>${node.children && expanded ? rows(node.children, depth + 1) : ""}`;
+        }).join("");
+      }
+      treeBody.innerHTML = rows(treeData);
+    }
+    treeBody.addEventListener("click", event => {
+      const button = event.target.closest("[data-tree-id]");
+      if (!button) return;
+      const id = button.dataset.treeId;
+      if (expandedTree.has(id)) expandedTree.delete(id); else expandedTree.add(id);
+      renderTree();
+      treeBody.querySelector(`[data-tree-id="${id}"]`).focus();
+    });
+    document.querySelector("#expandTree").addEventListener("click", () => {
+      function expand(nodes) { nodes.forEach(node => { if (node.children) { expandedTree.add(node.id); expand(node.children); } }); }
+      expand(treeData);
+      renderTree();
+    });
+    document.querySelector("#collapseTree").addEventListener("click", () => { expandedTree.clear(); renderTree(); });
+    renderTree();
+
+    setInterval(tickTransfers, 400);
+
+    setMode("mobile");
+    setScenario("default");
+    setTransferMode("desktop");
+    startTransferScenario("sequence");
   </script>
 </body>
 </html>
